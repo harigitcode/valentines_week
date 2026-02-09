@@ -73,7 +73,7 @@ h1{
 .buttons{
     margin-top:20px;
     position:relative;
-    height:70px;
+    height:80px;
 }
 
 button{
@@ -95,6 +95,8 @@ button{
     background:#444;
     color:#fff;
     position:absolute;
+    left:200px; /* initial position */
+    top:10px;
 }
 
 .yes:hover{
@@ -188,20 +190,28 @@ function typeWriter(){
 }
 typeWriter();
 
-/* No Button restricted inside card */
+/* No Button moves only within ±50px and stays inside container */
 const noBtn = document.getElementById("noBtn");
 const container = document.getElementById("container");
 
 noBtn.addEventListener("mouseover", function(){
-    const btnRect = noBtn.getBoundingClientRect();
-    const maxX = container.clientWidth - btnRect.width;
-    const maxY = container.clientHeight - btnRect.height;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const moveRange = 50;
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    let currentLeft = noBtn.offsetLeft;
+    let currentTop = noBtn.offsetTop;
+
+    let newLeft = currentLeft + (Math.random() * moveRange * 2 - moveRange);
+    let newTop = currentTop + (Math.random() * moveRange * 2 - moveRange);
+
+    const maxLeft = container.clientWidth - noBtn.offsetWidth;
+    const maxTop = container.clientHeight - noBtn.offsetHeight;
+
+    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+    newTop = Math.max(0, Math.min(newTop, maxTop));
+
+    noBtn.style.left = newLeft + "px";
+    noBtn.style.top = newTop + "px";
 });
 
 /* Yes Click Celebration */
@@ -214,7 +224,6 @@ function yesClicked(){
         </div>
     `;
 
-    // Fireworks
     setInterval(createFirework, 300);
 }
 
