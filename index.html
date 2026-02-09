@@ -50,27 +50,42 @@ body{
     line-height:1.6;
 }
 
-/* Chocolate Bar */
-.choco-bar{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
+/* Real Chocolate Bar */
+.chocolate{
+    display:flex;
+    justify-content:center;
     gap:6px;
-    margin:20px auto;
-    width:200px;
+    margin:25px auto;
 }
 
-.piece{
-    width:35px;
-    height:35px;
-    background:#5a2d0c;
+.bar-piece{
+    width:60px;
+    height:90px;
+    background:linear-gradient(145deg,#6b3a1a,#3d1f0d);
     border-radius:6px;
-    box-shadow:inset 0 0 5px rgba(0,0,0,0.5);
-    transition:0.3s;
+    box-shadow:
+        inset -4px -4px 6px rgba(0,0,0,0.4),
+        inset 4px 4px 6px rgba(255,255,255,0.05),
+        0 4px 10px rgba(0,0,0,0.4);
+    position:relative;
+    transition:0.4s;
+}
+
+/* Chocolate square lines (real look) */
+.bar-piece::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    width:2px;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    transform:translateX(-50%);
 }
 
 .eaten{
-    background:transparent;
-    box-shadow:none;
+    transform:translateY(20px) scale(0.8);
+    opacity:0;
 }
 
 /* Button */
@@ -84,10 +99,10 @@ button{
     color:#fff;
 }
 
-/* Floating chocolates */
+/* Floating chocolate effect */
 .choco{
     position:absolute;
-    font-size:20px;
+    font-size:22px;
     animation:float 4s linear forwards;
 }
 @keyframes float{
@@ -95,7 +110,7 @@ button{
     to{transform:translateY(-120px);opacity:0;}
 }
 
-/* Final screen */
+/* Final */
 .final{
     text-align:center;
     animation:fadeIn 2s ease;
@@ -115,8 +130,8 @@ button{
 
     <p id="message"></p>
 
-    <!-- Chocolate Bar -->
-    <div class="choco-bar" id="bar"></div>
+    <!-- 5 Real Chocolate Bars -->
+    <div class="chocolate" id="chocoBar"></div>
 
     <button id="eatBtn">Give Chocolate 🍫</button>
 
@@ -128,7 +143,7 @@ button{
 <script>
 
 /* Typing Message */
-const text = "Luna, every chocolate piece is a little sweetness for you, because you make my life sweeter every day ❤️";
+const text = "Luna, every piece of this chocolate is a little sweetness for you, because you make my life sweeter every day ❤️";
 let i = 0;
 function typeWriter(){
     if(i < text.length){
@@ -139,26 +154,26 @@ function typeWriter(){
 }
 typeWriter();
 
-/* Create Chocolate Pieces */
-const bar = document.getElementById("bar");
-let totalPieces = 15;
-let eatenCount = 0;
+/* Create 5 chocolate pieces */
+const container = document.getElementById("chocoBar");
+let total = 5;
+let eaten = 0;
 
-for(let i=0;i<totalPieces;i++){
+for(let i=0;i<total;i++){
     const piece = document.createElement("div");
-    piece.className="piece";
-    bar.appendChild(piece);
+    piece.className="bar-piece";
+    container.appendChild(piece);
 }
 
-const pieces = document.querySelectorAll(".piece");
+const pieces = document.querySelectorAll(".bar-piece");
 const btn = document.getElementById("eatBtn");
 
-/* Eat chocolate one by one */
+/* Eat one piece per click */
 btn.onclick = function(e){
 
-    if(eatenCount < totalPieces){
-        pieces[eatenCount].classList.add("eaten");
-        eatenCount++;
+    if(eaten < total){
+        pieces[eaten].classList.add("eaten");
+        eaten++;
 
         // floating chocolate effect
         for(let j=0;j<3;j++){
@@ -166,8 +181,7 @@ btn.onclick = function(e){
         }
     }
 
-    // When fully eaten → next page
-    if(eatenCount === totalPieces){
+    if(eaten === total){
         setTimeout(showFinal,500);
     }
 };
@@ -182,7 +196,7 @@ function createChoco(x,y){
     setTimeout(()=>c.remove(),4000);
 }
 
-/* Final Page */
+/* Final Screen */
 function showFinal(){
     document.body.innerHTML = `
     <div class="final">
@@ -203,5 +217,6 @@ function shareWhatsApp(){
 }
 
 </script>
+
 </body>
 </html>
