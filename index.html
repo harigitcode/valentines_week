@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Love ❤️</title>
+<title>For Luna ❤️</title>
 
 <style>
 *{
@@ -23,7 +23,7 @@ body{
     color:#fff;
 }
 
-/* Glass Card */
+/* Card */
 .container{
     position:relative;
     width:90%;
@@ -36,34 +36,52 @@ body{
     text-align:center;
 }
 
-h1{
-    font-size:2rem;
-    margin-bottom:10px;
+/* Name Animation */
+.name{
+    font-size:2.2rem;
+    font-weight:bold;
+    background:linear-gradient(90deg,#fff,#ffe6f0,#fff);
+    background-size:200%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shine 3s infinite;
+}
+
+@keyframes shine{
+    0%{background-position:0%;}
+    100%{background-position:200%;}
 }
 
 #message{
-    min-height:70px;
     margin:15px 0;
     line-height:1.6;
 }
 
-/* Gallery */
-.gallery{
-    display:flex;
-    justify-content:center;
-    gap:10px;
+/* Love Meter */
+.meter{
+    margin:15px 0;
 }
 
-.gallery img{
-    width:90px;
-    height:90px;
-    border-radius:12px;
-    object-fit:cover;
+.bar{
+    width:100%;
+    height:18px;
+    background:rgba(255,255,255,0.3);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:10%;
+    background:#ff2e63;
+    transition:0.3s;
 }
 
 /* Buttons */
 .buttons{
     margin-top:20px;
+    position:relative;
+    height:80px;
 }
 
 button{
@@ -78,32 +96,22 @@ button{
 .yes{
     background:#ff2e63;
     color:#fff;
+    position:absolute;
+    left:20px;
 }
 
 .no{
     background:#444;
     color:#fff;
-}
-
-/* Shake animation */
-@keyframes shake{
-    0%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    50%{transform:translateX(5px);}
-    75%{transform:translateX(-5px);}
-    100%{transform:translateX(0);}
-}
-
-.shake{
-    animation:shake 0.4s;
+    position:absolute;
+    right:20px;
 }
 
 /* Floating hearts */
 .heart{
     position:absolute;
     color:#ff2e63;
-    font-size:20px;
-    animation:float 3s linear forwards;
+    animation:float 4s linear forwards;
 }
 
 @keyframes float{
@@ -111,7 +119,6 @@ button{
     to{transform:translateY(-120px);opacity:0;}
 }
 
-/* Celebration */
 .celebration{
     display:flex;
     flex-direction:column;
@@ -120,21 +127,23 @@ button{
     height:100vh;
     text-align:center;
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>Hi My Love ❤️</h1>
+<div class="container" id="container">
+
+    <div class="name">Luna ❤️</div>
 
     <p id="message"></p>
 
-    <div class="gallery">
-        <img src="https://picsum.photos/100?1">
-        <img src="https://picsum.photos/100?2">
-        <img src="https://picsum.photos/100?3">
+    <!-- Love Meter -->
+    <div class="meter">
+        <div>Love Level</div>
+        <div class="bar">
+            <div class="fill" id="loveFill"></div>
+        </div>
     </div>
 
     <h2>Will you be my Valentine? 💖</h2>
@@ -143,66 +152,98 @@ button{
         <button class="yes" id="yesBtn">Yes ❤️</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
+
+    <br><br>
+    <!-- WhatsApp Share -->
+    <button onclick="shareWhatsApp()">Share on WhatsApp</button>
+
 </div>
 
 <script>
 
-/* Typing Effect */
-const text = "From the day you came into my life, everything became beautiful. Your smile, your care, your love mean the world to me ❤️";
+/* Typing message */
+const text = "Luna, from the moment you came into my life, everything became brighter. You are my happiness, my peace, and my favorite person ❤️";
 let i = 0;
 function typeWriter(){
     if(i < text.length){
         document.getElementById("message").innerHTML += text.charAt(i);
         i++;
-        setTimeout(typeWriter, 40);
+        setTimeout(typeWriter,40);
     }
 }
 typeWriter();
 
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const container = document.getElementById("container");
+const loveFill = document.getElementById("loveFill");
 
-let yesScale = 1;
+let loveLevel = 10;
 
-/* When trying to click NO */
+/* YES button action */
+yesBtn.onclick = function(e){
+
+    // Increase love meter
+    loveLevel += 10;
+    if(loveLevel > 100) loveLevel = 100;
+    loveFill.style.width = loveLevel + "%";
+
+    // Heart burst
+    for(let j=0;j<6;j++){
+        createHeart(e.pageX,e.pageY);
+    }
+
+    // Final celebration
+    if(loveLevel === 100){
+        document.body.innerHTML = `
+        <div class="celebration">
+            <h1>Luna said YES! ❤️</h1>
+            <h2>I Love You Forever 💕</h2>
+        </div>`;
+    }
+};
+
+/* NO button moves but never overlaps YES */
 noBtn.addEventListener("mouseover", () => {
 
-    // Shake No button
-    noBtn.classList.add("shake");
-    setTimeout(()=>noBtn.classList.remove("shake"),400);
+    const yesRect = yesBtn.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
 
-    // Increase Yes button size
-    yesScale += 0.1;
-    yesBtn.style.transform = `scale(${yesScale})`;
-});
+    let safeLeftArea = yesRect.left - containerRect.left - noBtn.offsetWidth - 20;
+    let safeRightArea = container.clientWidth - (yesRect.right - containerRect.left) - 20;
 
-/* Heart burst on Yes hover */
-yesBtn.addEventListener("mouseover", (e)=>{
-    for(let j=0;j<5;j++){
-        createHeart(e.pageX, e.pageY);
+    let newLeft;
+
+    // Choose side away from Yes
+    if(Math.random() > 0.5 && safeLeftArea > 0){
+        newLeft = Math.random() * safeLeftArea;
+    }else{
+        newLeft = (yesRect.right - containerRect.left) + 20 + Math.random() * safeRightArea;
     }
+
+    let newTop = Math.random() * (container.clientHeight - noBtn.offsetHeight);
+
+    noBtn.style.left = newLeft + "px";
+    noBtn.style.top = newTop + "px";
 });
 
+/* Hearts */
 function createHeart(x,y){
     const heart = document.createElement("div");
     heart.className="heart";
     heart.innerHTML="❤️";
-    heart.style.left = (x + Math.random()*20 -10) + "px";
-    heart.style.top = (y + Math.random()*20 -10) + "px";
+    heart.style.left = x + "px";
+    heart.style.top = y + "px";
     document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),3000);
+    setTimeout(()=>heart.remove(),4000);
 }
 
-/* Yes Click */
-yesBtn.onclick = function(){
-    document.body.innerHTML = `
-        <div class="celebration">
-            <h1>Yay! ❤️</h1>
-            <h2>I Love You Forever 💕</h2>
-            <p>You made my life the happiest!</p>
-        </div>
-    `;
-};
+/* WhatsApp Share */
+function shareWhatsApp(){
+    const message = "Luna ❤️ Will you be my Valentine? " + window.location.href;
+    const url = "https://wa.me/?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
+}
 
 </script>
 
