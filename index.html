@@ -6,12 +6,7 @@
 <title>For Luna ❤️</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 
 body{
     height:100vh;
@@ -36,7 +31,7 @@ body{
     text-align:center;
 }
 
-/* Name Animation */
+/* Luna name animation */
 .name{
     font-size:2.2rem;
     font-weight:bold;
@@ -46,30 +41,33 @@ body{
     -webkit-text-fill-color:transparent;
     animation:shine 3s infinite;
 }
+@keyframes shine{0%{background-position:0%}100%{background-position:200%}}
 
-@keyframes shine{
-    0%{background-position:0%;}
-    100%{background-position:200%;}
-}
+#message{margin:15px 0;line-height:1.6;}
 
-#message{
-    margin:15px 0;
-    line-height:1.6;
-}
-
-/* Love Meter */
-.meter{
+/* Picsum Gallery */
+.gallery{
+    display:flex;
+    justify-content:center;
+    gap:10px;
     margin:15px 0;
 }
+.gallery img{
+    width:90px;
+    height:90px;
+    border-radius:12px;
+    object-fit:cover;
+}
 
+/* Love meter */
 .bar{
     width:100%;
-    height:18px;
+    height:16px;
     background:rgba(255,255,255,0.3);
     border-radius:10px;
     overflow:hidden;
+    margin:10px 0;
 }
-
 .fill{
     height:100%;
     width:10%;
@@ -90,7 +88,6 @@ button{
     border:none;
     border-radius:25px;
     cursor:pointer;
-    transition:0.3s;
 }
 
 .yes{
@@ -107,13 +104,12 @@ button{
     right:20px;
 }
 
-/* Floating hearts */
+/* Hearts */
 .heart{
     position:absolute;
     color:#ff2e63;
     animation:float 4s linear forwards;
 }
-
 @keyframes float{
     from{transform:translateY(0);opacity:1;}
     to{transform:translateY(-120px);opacity:0;}
@@ -138,12 +134,16 @@ button{
 
     <p id="message"></p>
 
-    <!-- Love Meter -->
-    <div class="meter">
-        <div>Love Level</div>
-        <div class="bar">
-            <div class="fill" id="loveFill"></div>
-        </div>
+    <!-- Picsum images -->
+    <div class="gallery">
+        <img src="https://picsum.photos/100?random=1">
+        <img src="https://picsum.photos/100?random=2">
+        <img src="https://picsum.photos/100?random=3">
+    </div>
+
+    <div>Love Level</div>
+    <div class="bar">
+        <div class="fill" id="loveFill"></div>
     </div>
 
     <h2>Will you be my Valentine? 💖</h2>
@@ -154,15 +154,14 @@ button{
     </div>
 
     <br><br>
-    <!-- WhatsApp Share -->
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
 
 </div>
 
 <script>
 
-/* Typing message */
-const text = "Luna, from the moment you came into my life, everything became brighter. You are my happiness, my peace, and my favorite person ❤️";
+// Typing message
+const text = "Luna, you make my life brighter every day. You are my happiness, my peace, and my forever ❤️";
 let i = 0;
 function typeWriter(){
     if(i < text.length){
@@ -180,20 +179,16 @@ const loveFill = document.getElementById("loveFill");
 
 let loveLevel = 10;
 
-/* YES button action */
+// Yes button
 yesBtn.onclick = function(e){
-
-    // Increase love meter
     loveLevel += 10;
     if(loveLevel > 100) loveLevel = 100;
     loveFill.style.width = loveLevel + "%";
 
-    // Heart burst
     for(let j=0;j<6;j++){
         createHeart(e.pageX,e.pageY);
     }
 
-    // Final celebration
     if(loveLevel === 100){
         document.body.innerHTML = `
         <div class="celebration">
@@ -203,46 +198,43 @@ yesBtn.onclick = function(e){
     }
 };
 
-/* NO button moves but never overlaps YES */
+// No button moves but never covers Yes
 noBtn.addEventListener("mouseover", () => {
 
     const yesRect = yesBtn.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
 
-    let safeLeftArea = yesRect.left - containerRect.left - noBtn.offsetWidth - 20;
-    let safeRightArea = container.clientWidth - (yesRect.right - containerRect.left) - 20;
+    let leftSpace = yesRect.left - containerRect.left - noBtn.offsetWidth - 20;
+    let rightSpace = container.clientWidth - (yesRect.right - containerRect.left) - 20;
 
     let newLeft;
-
-    // Choose side away from Yes
-    if(Math.random() > 0.5 && safeLeftArea > 0){
-        newLeft = Math.random() * safeLeftArea;
+    if(Math.random()>0.5 && leftSpace>0){
+        newLeft = Math.random()*leftSpace;
     }else{
-        newLeft = (yesRect.right - containerRect.left) + 20 + Math.random() * safeRightArea;
+        newLeft = (yesRect.right - containerRect.left) + 20 + Math.random()*rightSpace;
     }
 
-    let newTop = Math.random() * (container.clientHeight - noBtn.offsetHeight);
+    let newTop = Math.random()*(container.clientHeight - noBtn.offsetHeight);
 
     noBtn.style.left = newLeft + "px";
     noBtn.style.top = newTop + "px";
 });
 
-/* Hearts */
+// Hearts
 function createHeart(x,y){
     const heart = document.createElement("div");
     heart.className="heart";
     heart.innerHTML="❤️";
-    heart.style.left = x + "px";
-    heart.style.top = y + "px";
+    heart.style.left=x+"px";
+    heart.style.top=y+"px";
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),4000);
 }
 
-/* WhatsApp Share */
+// WhatsApp share
 function shareWhatsApp(){
-    const message = "Luna ❤️ Will you be my Valentine? " + window.location.href;
-    const url = "https://wa.me/?text=" + encodeURIComponent(message);
-    window.open(url, "_blank");
+    const msg = "Luna ❤️ Will you be my Valentine? " + window.location.href;
+    window.open("https://wa.me/?text="+encodeURIComponent(msg));
 }
 
 </script>
