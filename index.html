@@ -25,6 +25,7 @@ body{
 }
 
 .container{
+    position:relative; /* Important for No button restriction */
     background: rgba(0,0,0,0.3);
     padding:30px;
     border-radius:20px;
@@ -66,6 +67,7 @@ p{
 
 .buttons{
     margin-top:20px;
+    position:relative;
 }
 
 button{
@@ -86,7 +88,7 @@ button{
 .no{
     background:#555;
     color:#fff;
-    position:relative;
+    position:absolute; /* Needed for movement */
 }
 
 .yes:hover{
@@ -119,7 +121,7 @@ button{
 
 <body>
 
-<div class="container">
+<div class="container" id="container">
     <h1>Hi My Love ❤️</h1>
 
     <p>
@@ -129,7 +131,6 @@ button{
     </p>
 
     <div class="gallery">
-        <!-- Replace with your photos -->
         <img src="https://picsum.photos/100?1">
         <img src="https://picsum.photos/100?2">
         <img src="https://picsum.photos/100?3">
@@ -137,13 +138,13 @@ button{
 
     <h2>Will you be my Valentine? 💖</h2>
 
-    <div class="buttons">
+    <div class="buttons" id="buttonArea">
         <button class="yes" onclick="yesClicked()">Yes ❤️</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
 </div>
 
-<!-- Background Music (optional) -->
+<!-- Background Music -->
 <audio autoplay loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
 </audio>
@@ -162,12 +163,21 @@ function yesClicked(){
     `;
 }
 
-// No Button runs away
+// Restrict No button inside container
 const noBtn = document.getElementById("noBtn");
-noBtn.addEventListener("mouseover", function(){
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.position = "absolute";
+const container = document.getElementById("container");
+
+noBtn.addEventListener("mouseover", function () {
+
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = container.clientWidth - btnRect.width;
+    const maxY = container.clientHeight - btnRect.height;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 });
