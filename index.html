@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Luna ❤️</title>
+<title>Happy Chocolate Day Luna 🍫</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
 
 body{
     height:100vh;
-    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    background:linear-gradient(135deg,#4e2a1e,#8b5a3c);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -18,37 +18,40 @@ body{
     color:#fff;
 }
 
-/* Main Card */
+/* Card */
 .container{
-    position:relative;
     width:90%;
     max-width:520px;
     padding:30px;
     border-radius:25px;
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(15px);
-    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(12px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
     text-align:center;
 }
 
-/* Luna name animation */
-.name{
+/* Title */
+.title{
     font-size:2.2rem;
     font-weight:bold;
-    background:linear-gradient(90deg,#fff,#ffe6f0,#fff);
+    background:linear-gradient(90deg,#fff,#f5d7b2,#fff);
     background-size:200%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation:shine 3s infinite;
 }
+
 @keyframes shine{
     0%{background-position:0%;}
     100%{background-position:200%;}
 }
 
-#message{margin:15px 0;line-height:1.6;}
+#message{
+    margin:15px 0;
+    line-height:1.6;
+}
 
-/* Gallery */
+/* Chocolate Gallery */
 .gallery{
     display:flex;
     justify-content:center;
@@ -62,7 +65,7 @@ body{
     object-fit:cover;
 }
 
-/* Love Meter */
+/* Sweet Meter */
 .bar{
     width:100%;
     height:16px;
@@ -74,79 +77,67 @@ body{
 .fill{
     height:100%;
     width:10%;
-    background:#ff2e63;
+    background:#d2691e;
     transition:0.3s;
 }
 
-/* Buttons */
-.buttons{
-    margin-top:20px;
-    position:relative;
-    height:80px;
-}
-
+/* Button */
 button{
     padding:12px 25px;
     font-size:16px;
     border:none;
     border-radius:25px;
     cursor:pointer;
-}
-
-.yes{
-    background:#ff2e63;
+    background:#d2691e;
     color:#fff;
-    position:absolute;
-    left:20px;
 }
 
-.no{
-    background:#444;
-    color:#fff;
+/* Floating chocolates */
+.choco{
     position:absolute;
-    right:20px;
+    font-size:20px;
+    animation:float 5s linear forwards;
 }
 
-/* Floating hearts */
-.heart{
-    position:absolute;
-    color:#ff2e63;
-    animation:float 4s linear forwards;
-}
 @keyframes float{
     from{transform:translateY(0);opacity:1;}
     to{transform:translateY(-120px);opacity:0;}
 }
 
+.final{
+    text-align:center;
+    animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:scale(0.8);}
+    to{opacity:1;transform:scale(1);}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container" id="container">
+<div class="container">
 
-    <div class="name">Luna ❤️</div>
+    <div class="title">Happy Chocolate Day Luna 🍫</div>
 
     <p id="message"></p>
 
-    <!-- Picsum Images -->
+    <!-- Chocolate Images (Picsum) -->
     <div class="gallery">
-        <img src="https://picsum.photos/100?random=1">
-        <img src="https://picsum.photos/100?random=2">
-        <img src="https://picsum.photos/100?random=3">
+        <img src="https://picsum.photos/100?random=11">
+        <img src="https://picsum.photos/100?random=12">
+        <img src="https://picsum.photos/100?random=13">
     </div>
 
-    <div>Love Level</div>
+    <div>Sweetness Level</div>
     <div class="bar">
-        <div class="fill" id="loveFill"></div>
+        <div class="fill" id="sweetFill"></div>
     </div>
 
-    <h2>Will you be my Valentine? 💖</h2>
-
-    <div class="buttons">
-        <button class="yes" id="yesBtn">Yes ❤️</button>
-        <button class="no" id="noBtn">No 😢</button>
-    </div>
+    <br>
+    <button id="giveBtn">Give Chocolate 🍫</button>
 
     <br><br>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
@@ -156,7 +147,7 @@ button{
 <script>
 
 /* Typing Message */
-const text = "Luna, you make my life brighter every day. You are my happiness, my peace, and my forever ❤️";
+const text = "Luna, just like chocolate makes every moment sweeter, you make my life more beautiful and joyful. You are the sweetest part of my life ❤️";
 let i = 0;
 function typeWriter(){
     if(i < text.length){
@@ -167,138 +158,52 @@ function typeWriter(){
 }
 typeWriter();
 
-const noBtn = document.getElementById("noBtn");
-const yesBtn = document.getElementById("yesBtn");
-const container = document.getElementById("container");
-const loveFill = document.getElementById("loveFill");
+const btn = document.getElementById("giveBtn");
+const fill = document.getElementById("sweetFill");
 
-let loveLevel = 10;
+let level = 10;
 
-/* YES Button */
-yesBtn.onclick = function(e){
+btn.onclick = function(e){
+    level += 10;
+    if(level > 100) level = 100;
+    fill.style.width = level + "%";
 
-    loveLevel += 10;
-    if(loveLevel > 100) loveLevel = 100;
-    loveFill.style.width = loveLevel + "%";
-
-    // Heart burst
-    for(let j=0;j<6;j++){
-        createHeart(e.pageX,e.pageY);
+    // Chocolate floating effect
+    for(let j=0;j<5;j++){
+        createChoco(e.pageX,e.pageY);
     }
 
-    // Final romantic screen
-    if(loveLevel === 100){
-        showFinalScreen();
+    if(level === 100){
+        showFinal();
     }
 };
 
-/* NO button moves but never overlaps YES */
-noBtn.addEventListener("mouseover", () => {
-
-    const yesRect = yesBtn.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
-
-    let leftSpace = yesRect.left - containerRect.left - noBtn.offsetWidth - 20;
-    let rightSpace = container.clientWidth - (yesRect.right - containerRect.left) - 20;
-
-    let newLeft;
-    if(Math.random()>0.5 && leftSpace>0){
-        newLeft = Math.random()*leftSpace;
-    }else{
-        newLeft = (yesRect.right - containerRect.left) + 20 + Math.random()*rightSpace;
-    }
-
-    let newTop = Math.random()*(container.clientHeight - noBtn.offsetHeight);
-
-    noBtn.style.left = newLeft + "px";
-    noBtn.style.top = newTop + "px";
-});
-
-/* Heart effect */
-function createHeart(x,y){
-    const heart = document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤️";
-    heart.style.left=x+"px";
-    heart.style.top=y+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),4000);
+function createChoco(x,y){
+    const c = document.createElement("div");
+    c.className="choco";
+    c.innerHTML="🍫";
+    c.style.left=x+"px";
+    c.style.top=y+"px";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5000);
 }
 
-/* Final Romantic Screen */
-function showFinalScreen(){
+function showFinal(){
     document.body.innerHTML = `
-    <style>
-        body{
-            margin:0;
-            height:100vh;
-            background:linear-gradient(135deg,#ff758c,#ff7eb3);
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            overflow:hidden;
-            font-family:'Segoe UI',sans-serif;
-            color:white;
-            text-align:center;
-        }
-        .final-box{
-            animation:fadeIn 2s ease;
-        }
-        .final-name{
-            font-size:3rem;
-            font-weight:bold;
-            background:linear-gradient(90deg,#fff,#ffe6f0,#fff);
-            background-size:200%;
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            animation:shine 3s infinite;
-        }
-        .final-text{
-            font-size:1.6rem;
-            margin-top:15px;
-        }
-        @keyframes shine{
-            0%{background-position:0%;}
-            100%{background-position:200%;}
-        }
-        @keyframes fadeIn{
-            from{opacity:0;transform:scale(0.8);}
-            to{opacity:1;transform:scale(1);}
-        }
-        .final-heart{
-            position:absolute;
-            font-size:20px;
-            animation:float 6s linear infinite;
-        }
-        @keyframes float{
-            0%{transform:translateY(100vh);opacity:0;}
-            100%{transform:translateY(-10vh);opacity:1;}
-        }
-    </style>
-
-    <div class="final-box">
-        <div class="final-name">Luna ❤️</div>
-        <div class="final-text">She said YES! 💍</div>
-        <div class="final-text">I Love You Forever & Always 💕</div>
-        <div class="final-text">You are my today, tomorrow and forever.</div>
+    <div class="final">
+        <h1 style="font-size:3rem;">Luna ❤️</h1>
+        <h2>Happy Chocolate Day 🍫</h2>
+        <p style="font-size:1.4rem;margin-top:10px;">
+        Life is sweeter with you.<br>
+        You are my forever sweetness 💕
+        </p>
     </div>
     `;
-
-    // Floating hearts background
-    setInterval(()=>{
-        const heart = document.createElement("div");
-        heart.className="final-heart";
-        heart.innerHTML="❤️";
-        heart.style.left=Math.random()*100+"vw";
-        heart.style.fontSize=(Math.random()*20+15)+"px";
-        document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),6000);
-    },300);
 }
 
 /* WhatsApp Share */
 function shareWhatsApp(){
-    const msg = "Luna ❤️ Will you be my Valentine? " + window.location.href;
+    const msg = "Happy Chocolate Day Luna 🍫❤️ " + window.location.href;
     window.open("https://wa.me/?text="+encodeURIComponent(msg));
 }
 
