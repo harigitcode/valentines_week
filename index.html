@@ -40,7 +40,6 @@ body{
     -webkit-text-fill-color:transparent;
     animation:shine 3s infinite;
 }
-
 @keyframes shine{
     0%{background-position:0%;}
     100%{background-position:200%;}
@@ -51,34 +50,27 @@ body{
     line-height:1.6;
 }
 
-/* Chocolate Gallery */
-.gallery{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin:15px 0;
-}
-.gallery img{
-    width:90px;
-    height:90px;
-    border-radius:12px;
-    object-fit:cover;
+/* Chocolate Bar */
+.choco-bar{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+    margin:20px auto;
+    width:200px;
 }
 
-/* Sweet Meter */
-.bar{
-    width:100%;
-    height:16px;
-    background:rgba(255,255,255,0.3);
-    border-radius:10px;
-    overflow:hidden;
-    margin:10px 0;
-}
-.fill{
-    height:100%;
-    width:10%;
-    background:#d2691e;
+.piece{
+    width:35px;
+    height:35px;
+    background:#5a2d0c;
+    border-radius:6px;
+    box-shadow:inset 0 0 5px rgba(0,0,0,0.5);
     transition:0.3s;
+}
+
+.eaten{
+    background:transparent;
+    box-shadow:none;
 }
 
 /* Button */
@@ -96,19 +88,18 @@ button{
 .choco{
     position:absolute;
     font-size:20px;
-    animation:float 5s linear forwards;
+    animation:float 4s linear forwards;
 }
-
 @keyframes float{
     from{transform:translateY(0);opacity:1;}
     to{transform:translateY(-120px);opacity:0;}
 }
 
+/* Final screen */
 .final{
     text-align:center;
     animation:fadeIn 2s ease;
 }
-
 @keyframes fadeIn{
     from{opacity:0;transform:scale(0.8);}
     to{opacity:1;transform:scale(1);}
@@ -124,20 +115,10 @@ button{
 
     <p id="message"></p>
 
-    <!-- Chocolate Images (Picsum) -->
-    <div class="gallery">
-        <img src="https://picsum.photos/100?random=11">
-        <img src="https://picsum.photos/100?random=12">
-        <img src="https://picsum.photos/100?random=13">
-    </div>
+    <!-- Chocolate Bar -->
+    <div class="choco-bar" id="bar"></div>
 
-    <div>Sweetness Level</div>
-    <div class="bar">
-        <div class="fill" id="sweetFill"></div>
-    </div>
-
-    <br>
-    <button id="giveBtn">Give Chocolate 🍫</button>
+    <button id="eatBtn">Give Chocolate 🍫</button>
 
     <br><br>
     <button onclick="shareWhatsApp()">Share on WhatsApp</button>
@@ -147,7 +128,7 @@ button{
 <script>
 
 /* Typing Message */
-const text = "Luna, just like chocolate makes every moment sweeter, you make my life more beautiful and joyful. You are the sweetest part of my life ❤️";
+const text = "Luna, every chocolate piece is a little sweetness for you, because you make my life sweeter every day ❤️";
 let i = 0;
 function typeWriter(){
     if(i < text.length){
@@ -158,23 +139,36 @@ function typeWriter(){
 }
 typeWriter();
 
-const btn = document.getElementById("giveBtn");
-const fill = document.getElementById("sweetFill");
+/* Create Chocolate Pieces */
+const bar = document.getElementById("bar");
+let totalPieces = 15;
+let eatenCount = 0;
 
-let level = 10;
+for(let i=0;i<totalPieces;i++){
+    const piece = document.createElement("div");
+    piece.className="piece";
+    bar.appendChild(piece);
+}
 
+const pieces = document.querySelectorAll(".piece");
+const btn = document.getElementById("eatBtn");
+
+/* Eat chocolate one by one */
 btn.onclick = function(e){
-    level += 10;
-    if(level > 100) level = 100;
-    fill.style.width = level + "%";
 
-    // Chocolate floating effect
-    for(let j=0;j<5;j++){
-        createChoco(e.pageX,e.pageY);
+    if(eatenCount < totalPieces){
+        pieces[eatenCount].classList.add("eaten");
+        eatenCount++;
+
+        // floating chocolate effect
+        for(let j=0;j<3;j++){
+            createChoco(e.pageX,e.pageY);
+        }
     }
 
-    if(level === 100){
-        showFinal();
+    // When fully eaten → next page
+    if(eatenCount === totalPieces){
+        setTimeout(showFinal,500);
     }
 };
 
@@ -185,17 +179,18 @@ function createChoco(x,y){
     c.style.left=x+"px";
     c.style.top=y+"px";
     document.body.appendChild(c);
-    setTimeout(()=>c.remove(),5000);
+    setTimeout(()=>c.remove(),4000);
 }
 
+/* Final Page */
 function showFinal(){
     document.body.innerHTML = `
     <div class="final">
         <h1 style="font-size:3rem;">Luna ❤️</h1>
-        <h2>Happy Chocolate Day 🍫</h2>
+        <h2>Chocolate Finished! 🍫</h2>
         <p style="font-size:1.4rem;margin-top:10px;">
-        Life is sweeter with you.<br>
-        You are my forever sweetness 💕
+        Just like this chocolate,<br>
+        you make my life sweet and complete 💕
         </p>
     </div>
     `;
@@ -208,6 +203,5 @@ function shareWhatsApp(){
 }
 
 </script>
-
 </body>
 </html>
