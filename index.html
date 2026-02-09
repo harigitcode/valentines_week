@@ -1,185 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Luna 🌙</title>
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-background:linear-gradient(135deg,#fff5f5,#f3e8ff,#e6f0ff);
-transition:2s;
-}
-
-/* Night mode */
-.night{
-background:radial-gradient(circle,#1a1a40,#000014);
-}
-
-/* Card */
-.container{
-width:90%;
-max-width:380px;
-padding:30px 20px;
-text-align:center;
-border-radius:24px;
-background:rgba(255,255,255,0.75);
-backdrop-filter:blur(14px);
-box-shadow:0 15px 50px rgba(0,0,0,0.08);
-}
-
-/* Start button */
-.start{
-padding:12px 28px;
-border:none;
-border-radius:20px;
-background:#ff6b81;
-color:white;
-font-size:18px;
-cursor:pointer;
-}
-
-/* Moon character */
-.moon{
-width:120px;
-height:120px;
-margin:10px auto;
-border-radius:50%;
-background:radial-gradient(circle at 30% 30%,#fff,#ddd);
-box-shadow:0 0 40px #fff;
-position:relative;
-animation:moonFloat 3s ease-in-out infinite;
-}
-
-@keyframes moonFloat{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
-
-/* Moon face */
-.eye{
-width:8px;height:8px;background:#333;border-radius:50%;
-position:absolute;top:45px;
-}
-.eye.left{left:35px;}
-.eye.right{right:35px;}
-
-.smile{
-width:30px;height:15px;border-bottom:3px solid #333;
-border-radius:0 0 30px 30px;
-position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
-}
-
-/* Speech bubble */
-.bubble{
-margin-top:10px;
-font-size:18px;
-color:#5a3a2a;
-min-height:80px;
-transition:opacity 1s;
-}
-
-/* Final text */
-.final{
-font-size:32px;
-color:#ff4d6d;
-animation:glow 1.5s infinite alternate;
-}
-
-@keyframes glow{
-from{text-shadow:0 0 10px #ff85a2;}
-to{text-shadow:0 0 35px #ff4d6d;}
-}
-
-/* Hearts */
-.heart{
-position:fixed;
-bottom:-20px;
-animation:floatUp 5s linear forwards;
-}
-@keyframes floatUp{
-to{transform:translateY(-110vh);opacity:0;}
-}
-
-/* Stars */
-.star{
-position:fixed;
-color:white;
-animation:twinkle 2s infinite alternate;
-}
-@keyframes twinkle{
-from{opacity:0.4;}
-to{opacity:1;}
-}
-
-/* Hidden audio */
-audio{display:none;}
-</style>
-</head>
-<body>
-
-<div class="container">
-
-<h2>For Luna 🌙❤️</h2>
-
-<button class="start" id="start">Tap to Begin</button>
-
-<!-- Hidden background music -->
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2025/07/26/audio_dd8143520a.mp3" type="audio/mpeg">
-</audio>
-
-<div id="moonArea" style="display:none;">
-<div class="moon">
-<div class="eye left"></div>
-<div class="eye right"></div>
-<div class="smile"></div>
-</div>
-
-<div class="bubble" id="text"></div>
-</div>
-
-</div>
-
 <script>
 const start=document.getElementById("start");
-const music=document.getElementById("music");
+const scene=document.getElementById("scene");
+const music=document.getElementById("bgMusic");
 const text=document.getElementById("text");
-const moonArea=document.getElementById("moonArea");
+const moon=document.getElementById("moon");
+const lunaStars=document.getElementById("lunaStars");
+const finalArea=document.getElementById("finalArea");
+
+/* Moon walking animation */
+moon.style.position="relative";
+moon.style.animation="moonWalk 12s linear infinite";
+
+const style=document.createElement("style");
+style.innerHTML=`
+@keyframes moonWalk{
+0%{left:-40px;}
+50%{left:40px;}
+100%{left:-40px;}
+}
+
+/* Hand holding hearts */
+.hand-hearts{
+position:fixed;
+bottom:15%;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+animation:holdPulse 1.5s infinite alternate;
+}
+@keyframes holdPulse{
+from{transform:translateX(-50%) scale(1);}
+to{transform:translateX(-50%) scale(1.2);}
+}
+`;
+document.head.appendChild(style);
 
 const story=[
 "Hi Luna… I'm your little moon 🌙",
-"I see how special you are to someone…",
-"You make his world brighter every day.",
+"I came to tell you something special…",
+"You make someone’s world brighter.",
+"You bring peace to his heart.",
 "He smiles because of you.",
-"He feels peace because of you.",
-"Today he just wants to say…",
+"Today he wants to say…",
 "Happy Chocolate Day Luna ❤️",
-"You are his moon, his happiness…",
-"I Love You ❤️"
+"You are his moon… his happiness.",
+"And he wants you to know…"
 ];
 
-/* Start experience */
 start.onclick=()=>{
 start.style.display="none";
-moonArea.style.display="block";
-music.play(); // background audio
+scene.style.display="block";
+music.play();
 runStory();
 };
 
 let i=0;
+
 function runStory(){
 let interval=setInterval(()=>{
-
 if(i<story.length){
-typeText(story[i]);
+showText(story[i]);
 createHearts();
 i++;
 
@@ -189,41 +69,66 @@ createStars();
 }
 
 if(i===story.length){
-text.className="bubble final";
-}
-
-}else{
 clearInterval(interval);
+endScene();
+}
+}
+},3000);
 }
 
-},3500); // 3.5 sec × 9 ≈ 30 sec
-}
-
-/* typing effect */
-function typeText(msg){
+function showText(msg){
 text.style.opacity=0;
 setTimeout(()=>{
 text.innerText=msg;
 text.style.opacity=1;
-},400);
+},300);
 }
 
-/* hearts */
+/* Ending Scene */
+function endScene(){
+moon.classList.add("hug");
+lunaStars.style.opacity=1;
+
+/* Hand holding hearts */
+const hold=document.createElement("div");
+hold.className="hand-hearts";
+hold.innerHTML="💞";
+document.body.appendChild(hold);
+
+setTimeout(()=>{
+finalArea.style.display="block";
+speakLove(); // voice message
+},2500);
+}
+
+/* Text-to-speech (your voice substitute) */
+function speakLove(){
+const speech=new SpeechSynthesisUtterance(
+"I love you Luna. You are my moon, my happiness, and my forever."
+);
+speech.rate=0.9;
+speech.pitch=1.1;
+speech.volume=1;
+speech.lang="en-US";
+speechSynthesis.speak(speech);
+}
+
+/* Floating hearts */
 function createHearts(){
-for(let j=0;j<4;j++){
+for(let j=0;j<3;j++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="❤️";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize=(Math.random()*20+12)+"px";
+h.style.fontSize=(Math.random()*18+12)+"px";
 document.body.appendChild(h);
-setTimeout(()=>h.remove(),5000);
+setTimeout(()=>h.remove(),6000);
 }
 }
 
-/* stars */
+/* Stars */
 function createStars(){
-for(let j=0;j<40;j++){
+for(let j=0;j<50;j++){
 let s=document.createElement("div");
 s.className="star";
 s.innerHTML="✦";
@@ -232,7 +137,8 @@ s.style.top=Math.random()*100+"vh";
 document.body.appendChild(s);
 }
 }
-</script>
 
-</body>
-</html>
+function playVoice(){
+speakLove();
+}
+</script>
