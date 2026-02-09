@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Love ❤️</title>
+<title>For Luna ❤️</title>
 
 <style>
 *{
@@ -21,12 +21,12 @@ body{
     transition:0.8s;
 }
 
-/* Romantic Background Themes */
+/* Light romantic gradients */
 .bg1{ background: linear-gradient(135deg,#fff5f5,#ffe4e1); }
 .bg2{ background: linear-gradient(135deg,#fce4ff,#f3d1ff); }
 .bg3{ background: linear-gradient(135deg,#ffe9ec,#ffd6dc); }
 .bg4{ background: linear-gradient(135deg,#fff3e6,#ffe0b3); }
-.bg5{ background: linear-gradient(135deg,#ffe6f0,#ffccd9); }
+.bg5{ background: linear-gradient(135deg,#e6f0ff,#ccd9ff); }
 .bgFinal{ background: linear-gradient(135deg,#ffd6e0,#ff9aa2); }
 
 /* Card */
@@ -50,7 +50,6 @@ h1{
 
 .subtitle{
     color:#a0522d;
-    font-size:16px;
     margin-bottom:15px;
 }
 
@@ -63,11 +62,18 @@ h1{
 }
 
 #choco:hover{
-    transform: scale(1.1) rotate(-3deg);
+    transform: scale(1.08);
+}
+
+/* Romantic Image */
+#loveImg{
+    width: clamp(120px,40vw,200px);
+    margin-top:15px;
+    display:none;
 }
 
 .message{
-    margin-top:15px;
+    margin-top:12px;
     min-height:60px;
     font-size: clamp(16px,4vw,20px);
     color:#5a3a2a;
@@ -90,7 +96,7 @@ h1{
     to{ text-shadow:0 0 25px #ff4d6d;}
 }
 
-/* Hearts */
+/* Floating hearts */
 .heart{
     position:fixed;
     bottom:-20px;
@@ -109,20 +115,23 @@ h1{
 <body class="bg1">
 
 <div class="container">
-    <h1 id="title">For You, Priya ❤️</h1>
-    <div class="subtitle">Take a chocolate bite...</div>
+    <h1 id="title">For Luna 🌙❤️</h1>
+    <div class="subtitle">Take a chocolate bite, my love...</div>
 
     <img id="choco"
     src="https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97184.png">
+
+    <!-- Romantic Image -->
+    <img id="loveImg" src="">
 
     <div class="message" id="msg">
         Click the chocolate to start our sweet story...
     </div>
 
     <div class="final" id="final">
-        <div class="celebrate">Happy Chocolate Day ❤️</div>
+        <div class="celebrate">Happy Chocolate Day Luna ❤️</div>
         <p style="margin-top:10px;font-size:18px;color:#6b3e2e;">
-            I love you more than chocolates 🍫
+            You are my moon, my love, my sweetest happiness 🌙
         </p>
     </div>
 </div>
@@ -134,27 +143,32 @@ const story = [
 {
     bg:"bg1",
     title:"First Bite 🍫",
-    msg:"The day you came into my life, everything became sweeter."
+    msg:"Luna, the day you came into my life, everything became magical.",
+    img:"https://cdn-icons-png.flaticon.com/512/833/833472.png"
 },
 {
     bg:"bg2",
     title:"Second Bite 💖",
-    msg:"Your smile is my daily happiness."
+    msg:"Your smile is the reason for my happiness.",
+    img:"https://cdn-icons-png.flaticon.com/512/2107/2107845.png"
 },
 {
     bg:"bg3",
     title:"Third Bite 🌸",
-    msg:"Every moment with you feels special and magical."
+    msg:"Every moment with you feels like a beautiful dream.",
+    img:"https://cdn-icons-png.flaticon.com/512/2589/2589175.png"
 },
 {
     bg:"bg4",
     title:"Fourth Bite ✨",
-    msg:"You make my world beautiful and complete."
+    msg:"You make my world brighter and more beautiful.",
+    img:"https://cdn-icons-png.flaticon.com/512/869/869636.png"
 },
 {
     bg:"bg5",
-    title:"Last Bite ❤️",
-    msg:"You are the sweetest part of my life."
+    title:"Last Bite 🌙",
+    msg:"Luna, you are the sweetest part of my life.",
+    img:"https://cdn-icons-png.flaticon.com/512/616/616554.png"
 }
 ];
 
@@ -170,6 +184,7 @@ const body = document.body;
 const title = document.getElementById("title");
 const msg = document.getElementById("msg");
 const choco = document.getElementById("choco");
+const loveImg = document.getElementById("loveImg");
 const final = document.getElementById("final");
 
 choco.onclick = () => {
@@ -178,12 +193,17 @@ choco.onclick = () => {
         title.innerText = story[step].title;
         msg.innerText = story[step].msg;
         choco.src = images[step];
+
+        loveImg.src = story[step].img;
+        loveImg.style.display = "block";
+
         step++;
     }
 
     if(step === story.length){
         setTimeout(()=>{
             choco.style.display="none";
+            loveImg.style.display="none";
             msg.style.display="none";
             final.style.display="block";
             body.className="bgFinal";
