@@ -35,7 +35,7 @@ body{
 .container{
     width:90%;
     max-width:420px;
-    padding:40px 25px;
+    padding:35px 25px 25px;
     text-align:center;
     border-radius:24px;
     background: rgba(255,255,255,0.6);
@@ -47,10 +47,20 @@ body{
 h1{
     font-size: clamp(24px,5vw,32px);
     color:#6b3e2e;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
-/* Chocolate button (CSS) */
+/* Audio styling */
+.audio-box{
+    margin-bottom:18px;
+}
+
+audio{
+    width:100%;
+    outline:none;
+}
+
+/* Chocolate button */
 .choco-btn{
     width:170px;
     height:90px;
@@ -79,7 +89,7 @@ h1{
 
 /* Message */
 .message{
-    margin-top:25px;
+    margin-top:22px;
     min-height:80px;
     font-size: clamp(18px,4vw,22px);
     color:#5a3a2a;
@@ -134,13 +144,15 @@ h1{
 </head>
 <body>
 
-<!-- Free romantic music -->
-<audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9c4d5b.mp3?filename=romantic-piano-ambient-110624.mp3" type="audio/mp3">
-</audio>
-
 <div class="container">
-    <h1 id="title">For Luna 🌙❤️</h1>
+    <h1>For Luna 🌙❤️</h1>
+
+    <!-- Your Audio -->
+    <div class="audio-box">
+        <audio id="music" controls loop>
+            <source src="https://cdn.pixabay.com/download/audio/2025/07/26/audio_dd8143520a.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
     <div class="choco-btn" id="choco"></div>
 
@@ -175,7 +187,7 @@ const music = document.getElementById("music");
 
 choco.onclick = () => {
 
-    // Start music on first interaction (browser policy)
+    /* Start music automatically on first click */
     if(!musicStarted){
         music.play();
         musicStarted = true;
