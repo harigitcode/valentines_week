@@ -13,125 +13,158 @@
     font-family:'Segoe UI',sans-serif;
 }
 
+/* Animated Light Gradient Background */
 body{
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    transition:0.8s;
+    background: linear-gradient(-45deg,#fff5f5,#ffe4e1,#f3e8ff,#e6f0ff);
+    background-size:400% 400%;
+    animation:gradientMove 12s ease infinite;
+    transition:0.6s;
 }
 
-/* Light romantic gradients */
-.bg1{ background: linear-gradient(135deg,#fff5f5,#ffe4e1); }
-.bg2{ background: linear-gradient(135deg,#fce4ff,#f3d1ff); }
-.bg3{ background: linear-gradient(135deg,#ffe9ec,#ffd6dc); }
-.bg4{ background: linear-gradient(135deg,#fff3e6,#ffe0b3); }
-.bg5{ background: linear-gradient(135deg,#e6f0ff,#ccd9ff); }
-.bgFinal{ background: linear-gradient(135deg,#ffd6e0,#ff9aa2); }
+@keyframes gradientMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
 
-/* Card */
+/* Glass Card */
 .container{
     width:90%;
     max-width:420px;
-    padding:30px 20px;
+    padding:35px 25px;
     text-align:center;
-    border-radius:22px;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    transition:0.5s;
+    border-radius:24px;
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    transition:0.4s;
 }
 
+/* Title */
 h1{
-    font-size: clamp(22px,5vw,30px);
+    font-size: clamp(24px,5vw,32px);
     color:#6b3e2e;
-    margin-bottom:10px;
+    margin-bottom:8px;
 }
 
 .subtitle{
     color:#a0522d;
-    margin-bottom:15px;
+    margin-bottom:25px;
+    font-size:15px;
 }
 
-/* Chocolate */
-#choco{
-    width: clamp(160px,55vw,260px);
+/* Chocolate Button (No Image) */
+.choco-btn{
+    width:160px;
+    height:80px;
+    margin:0 auto;
+    background: linear-gradient(#5c3a21,#3b2314);
+    border-radius:12px;
+    position:relative;
     cursor:pointer;
     transition:0.3s;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
-#choco:hover{
-    transform: scale(1.08);
+/* Chocolate squares */
+.choco-btn::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    background:
+        repeating-linear-gradient(
+            to right,
+            rgba(255,255,255,0.08) 0 2px,
+            transparent 2px 40px
+        ),
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.08) 0 2px,
+            transparent 2px 20px
+        );
+    border-radius:8px;
 }
 
-/* Romantic Image */
-#loveImg{
-    width: clamp(120px,40vw,200px);
-    margin-top:15px;
-    display:none;
+.choco-btn:hover{
+    transform:scale(1.08);
 }
 
+/* Message */
 .message{
-    margin-top:12px;
-    min-height:60px;
-    font-size: clamp(16px,4vw,20px);
+    margin-top:25px;
+    min-height:70px;
+    font-size: clamp(17px,4vw,21px);
     color:#5a3a2a;
     font-weight:500;
+    transition:0.4s;
 }
 
-/* Final */
+/* Final Glow */
 .final{
     display:none;
 }
 
 .celebrate{
-    font-size: clamp(26px,6vw,36px);
+    font-size: clamp(28px,6vw,38px);
     color:#d63384;
-    animation:glow 1s infinite alternate;
+    animation:glow 1.2s infinite alternate;
 }
 
 @keyframes glow{
-    from{ text-shadow:0 0 5px #ff85a2;}
-    to{ text-shadow:0 0 25px #ff4d6d;}
+    from{ text-shadow:0 0 10px #ff85a2;}
+    to{ text-shadow:0 0 30px #ff4d6d;}
 }
 
-/* Floating hearts */
+/* Floating Hearts */
 .heart{
     position:fixed;
     bottom:-20px;
-    animation:floatUp 5s linear forwards;
+    animation:floatUp 6s linear forwards;
+    pointer-events:none;
 }
 
 @keyframes floatUp{
     to{
-        transform:translateY(-100vh);
+        transform:translateY(-110vh);
+        opacity:0;
+    }
+}
+
+/* Sparkle */
+.sparkle{
+    position:fixed;
+    color:#ff85a2;
+    animation:sparkleMove 3s linear forwards;
+}
+
+@keyframes sparkleMove{
+    to{
+        transform:translateY(-80px);
         opacity:0;
     }
 }
 </style>
 </head>
-
-<body class="bg1">
+<body>
 
 <div class="container">
     <h1 id="title">For Luna 🌙❤️</h1>
-    <div class="subtitle">Take a chocolate bite, my love...</div>
+    <div class="subtitle">Tap the chocolate, my love...</div>
 
-    <img id="choco"
-    src="https://images.openai.com/static-rsc-3/mi5ernfqRaD_zAAJtoG4BJ46GxqDX-C4gHxZV6nBKv6HuD_VecmO3-3Fkg20pgrDaAGTRfpWSyJf9kb0z6EV9mkeIM9HCJfS3vPIluz5iuk?purpose=fullsize&v=1">
-
-    <!-- Romantic Image -->
-    <img id="loveImg" src="">
+    <div class="choco-btn" id="choco"></div>
 
     <div class="message" id="msg">
-        Click the chocolate to start our sweet story...
+        Every click is a sweet memory of us...
     </div>
 
     <div class="final" id="final">
         <div class="celebrate">Happy Chocolate Day Luna ❤️</div>
         <p style="margin-top:10px;font-size:18px;color:#6b3e2e;">
-            You are my moon, my love, my sweetest happiness 🌙
+            You are my moon, my love, my forever sweetness 🌙
         </p>
     </div>
 </div>
@@ -139,74 +172,32 @@ h1{
 <script>
 let step = 0;
 
-const story = [
-{
-    bg:"bg1",
-    title:"First Bite 🍫",
-    msg:"Luna, the day you came into my life, everything became magical.",
-    img:"https://images.openai.com/static-rsc-3/SqfgasAeXfEZDQ_3QI83E8OiClPzC4MV4N8Z6B9kvYiV52BMDfpHSuZG1s4UPOzqPp5-2dKWTfuLC13g1OrIcsIReU6ez_CKkUQE1jpuYb4?purpose=fullsize&v=1"
-},
-{
-    bg:"bg2",
-    title:"Second Bite 💖",
-    msg:"Your smile is the reason for my happiness.",
-    img:"https://png.pngtree.com/png-vector/20260131/ourlarge/pngtree-minimalist-heart-embrace-illustration-png-image_18679333.webp"
-},
-{
-    bg:"bg3",
-    title:"Third Bite 🌸",
-    msg:"Every moment with you feels like a beautiful dream.",
-    img:"https://images.openai.com/static-rsc-3/ZojsTWPDjzgYo5mleV3rUZksvZyU_PFnZitF79x8pW78zHwciZNXuwSIjm-egwxa8Gvu4RyzPL6UAARn4Mmr-tsoab1iRIPEDxkCitPaNqM?purpose=fullsize&v=1"
-},
-{
-    bg:"bg4",
-    title:"Fourth Bite ✨",
-    msg:"You make my world brighter and more beautiful.",
-    img:"https://images.openai.com/static-rsc-3/TRV461qXVEBP8yWA4xt6Z46hnm0_pN-Ep818pUaFxMnn9_Z9drlqSfE7zN7_THeQuq5dka0_fvS3HHDGe9CEyNgTi6Er1HR778GYaIL9Jdk?purpose=fullsize&v=1"
-},
-{
-    bg:"bg5",
-    title:"Last Bite 🌙",
-    msg:"Luna, you are the sweetest part of my life.",
-    img:"https://images.openai.com/static-rsc-3/__32nx4S3fNTccFIFrRykV_vY1et4G5HoRoUqkKPPBM8boFSPRDp2NtD7k7IVxeXtn5w0jr7OPu8ZVLiZNyuzsKw-aSh6LViQt2bw3M6I3I?purpose=fullsize&v=1"
-}
+const messages = [
+"Luna, the day you came into my life, everything changed.",
+"Your smile is my favorite happiness.",
+"Every moment with you feels magical.",
+"You make my world brighter and more beautiful.",
+"You are the sweetest part of my life."
 ];
 
-const images = [
-"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97184.png",
-"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97181.png",
-"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97178.png",
-"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97175.png",
-"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97170.png"
-];
-
-const body = document.body;
 const title = document.getElementById("title");
 const msg = document.getElementById("msg");
 const choco = document.getElementById("choco");
-const loveImg = document.getElementById("loveImg");
 const final = document.getElementById("final");
 
 choco.onclick = () => {
-    if(step < story.length){
-        body.className = story[step].bg;
-        title.innerText = story[step].title;
-        msg.innerText = story[step].msg;
-        choco.src = images[step];
-
-        loveImg.src = story[step].img;
-        loveImg.style.display = "block";
-
+    if(step < messages.length){
+        title.innerText = "Sweet Moment " + (step+1) + " ❤️";
+        msg.innerText = messages[step];
+        createSparkles();
         step++;
     }
 
-    if(step === story.length){
+    if(step === messages.length){
         setTimeout(()=>{
             choco.style.display="none";
-            loveImg.style.display="none";
             msg.style.display="none";
             final.style.display="block";
-            body.className="bgFinal";
             startHearts();
         },400);
     }
@@ -220,11 +211,22 @@ function startHearts(){
         heart.style.left=Math.random()*100+"vw";
         heart.style.fontSize=(Math.random()*20+15)+"px";
         document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),5000);
-    },300);
+        setTimeout(()=>heart.remove(),6000);
+    },250);
+}
+
+function createSparkles(){
+    for(let i=0;i<8;i++){
+        const s=document.createElement("div");
+        s.className="sparkle";
+        s.innerHTML="✨";
+        s.style.left=(window.innerWidth/2 + (Math.random()*120-60))+"px";
+        s.style.top=(window.innerHeight/2)+"px";
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),3000);
+    }
 }
 </script>
 
 </body>
 </html>
-
