@@ -3,36 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Love hari ❤️</title>
+<title>For My Love ❤️</title>
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: 'Segoe UI', sans-serif;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
     height:100vh;
-    background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
     display:flex;
     justify-content:center;
     align-items:center;
-    text-align:center;
     overflow:hidden;
     color:#fff;
 }
 
+/* Premium Glass Card */
 .container{
-    position:relative; /* Important for No button restriction */
-    background: rgba(0,0,0,0.3);
-    padding:30px;
-    border-radius:20px;
+    position:relative;
     width:90%;
-    max-width:500px;
-    backdrop-filter: blur(10px);
-    animation: fadeIn 2s ease;
+    max-width:520px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    text-align:center;
+    animation:fadeIn 1.5s ease;
 }
 
 h1{
@@ -40,34 +42,38 @@ h1{
     margin-bottom:10px;
 }
 
-p{
-    margin:15px 0;
+/* Typing text */
+#message{
+    min-height:70px;
     line-height:1.6;
+    margin:15px 0;
 }
 
+/* Gallery */
 .gallery{
     display:flex;
-    gap:10px;
     justify-content:center;
+    gap:10px;
     flex-wrap:wrap;
-    margin:15px 0;
 }
 
 .gallery img{
-    width:90px;
-    height:90px;
+    width:95px;
+    height:95px;
     object-fit:cover;
-    border-radius:10px;
-    transition:0.3s;
+    border-radius:12px;
+    transition:0.4s;
 }
 
 .gallery img:hover{
     transform:scale(1.1);
 }
 
+/* Buttons */
 .buttons{
     margin-top:20px;
     position:relative;
+    height:70px;
 }
 
 button{
@@ -75,42 +81,63 @@ button{
     font-size:16px;
     border:none;
     border-radius:25px;
-    margin:10px;
     cursor:pointer;
     transition:0.3s;
 }
 
 .yes{
-    background:#ff4d6d;
+    background:#ff2e63;
     color:#fff;
+    margin-right:10px;
 }
 
 .no{
-    background:#555;
+    background:#444;
     color:#fff;
-    position:absolute; /* Needed for movement */
+    position:absolute;
 }
 
 .yes:hover{
     transform:scale(1.1);
 }
 
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
 /* Floating Hearts */
 .heart{
     position:absolute;
-    color:#ff4d6d;
-    font-size:20px;
-    animation: float 5s linear infinite;
+    color:#ff2e63;
+    animation:float 5s linear infinite;
 }
 
 @keyframes float{
-    0%{transform:translateY(100vh); opacity:0;}
-    100%{transform:translateY(-10vh); opacity:1;}
+    0%{transform:translateY(100vh);opacity:0;}
+    100%{transform:translateY(-10vh);opacity:1;}
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+/* Celebration Screen */
+.celebration{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    animation:fadeIn 1s ease;
+}
+
+.firework{
+    position:absolute;
+    font-size:20px;
+    animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+    from{transform:scale(0);opacity:1;}
+    to{transform:scale(3);opacity:0;}
 }
 
 @media(max-width:480px){
@@ -124,13 +151,10 @@ button{
 <div class="container" id="container">
     <h1>Hi My Love ❤️</h1>
 
-    <p>
-        From the day you came into my life, everything became more beautiful.
-        Your smile, your care, your love — you mean the world to me.
-        Every moment with you is my favorite memory.
-    </p>
+    <p id="message"></p>
 
     <div class="gallery">
+        <!-- Replace with your photos -->
         <img src="https://picsum.photos/100?1">
         <img src="https://picsum.photos/100?2">
         <img src="https://picsum.photos/100?3">
@@ -138,40 +162,38 @@ button{
 
     <h2>Will you be my Valentine? 💖</h2>
 
-    <div class="buttons" id="buttonArea">
+    <div class="buttons">
         <button class="yes" onclick="yesClicked()">Yes ❤️</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
 </div>
 
-<!-- Background Music -->
+<!-- Music -->
 <audio autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
 </audio>
 
 <script>
-// Yes Button
-function yesClicked(){
-    document.body.innerHTML = `
-        <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;color:white;">
-            <div>
-                <h1>Yay! ❤️</h1>
-                <h2>I Love You Forever 💕</h2>
-                <p>Happy Valentine's Day!</p>
-            </div>
-        </div>
-    `;
-}
 
-// Restrict No button inside container
+/* Typing Effect */
+const text = "From the day you came into my life, everything became beautiful. Your smile, your care, your love mean the world to me. Every moment with you is my favorite memory ❤️";
+let i = 0;
+
+function typeWriter(){
+    if(i < text.length){
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    }
+}
+typeWriter();
+
+/* No Button restricted inside card */
 const noBtn = document.getElementById("noBtn");
 const container = document.getElementById("container");
 
-noBtn.addEventListener("mouseover", function () {
-
-    const containerRect = container.getBoundingClientRect();
+noBtn.addEventListener("mouseover", function(){
     const btnRect = noBtn.getBoundingClientRect();
-
     const maxX = container.clientWidth - btnRect.width;
     const maxY = container.clientHeight - btnRect.height;
 
@@ -182,19 +204,42 @@ noBtn.addEventListener("mouseover", function () {
     noBtn.style.top = y + "px";
 });
 
-// Floating hearts
+/* Yes Click Celebration */
+function yesClicked(){
+    document.body.innerHTML = `
+        <div class="celebration">
+            <h1>Yay! ❤️</h1>
+            <h2>I Love You Forever 💕</h2>
+            <p>You made my life beautiful!</p>
+        </div>
+    `;
+
+    // Fireworks
+    setInterval(createFirework, 300);
+}
+
+function createFirework(){
+    const fire = document.createElement("div");
+    fire.className = "firework";
+    fire.innerHTML = "💖";
+    fire.style.left = Math.random()*100 + "vw";
+    fire.style.top = Math.random()*100 + "vh";
+    document.body.appendChild(fire);
+    setTimeout(()=>fire.remove(),1000);
+}
+
+/* Floating Hearts Background */
 setInterval(()=>{
     const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random()*100 + "vw";
-    heart.style.fontSize = Math.random()*20 + 10 + "px";
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
     document.body.appendChild(heart);
-
-    setTimeout(()=>{heart.remove();},5000);
+    setTimeout(()=>heart.remove(),5000);
 },300);
+
 </script>
 
 </body>
 </html>
-
