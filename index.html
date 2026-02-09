@@ -21,13 +21,19 @@ body{
     overflow:hidden;
     background: linear-gradient(-45deg,#fff5f5,#ffe4e1,#f3e8ff,#e6f0ff);
     background-size:400% 400%;
-    animation:bgMove 14s ease infinite;
+    animation:bgMove 15s ease infinite;
+    transition:1s;
 }
 
 @keyframes bgMove{
     0%{background-position:0% 50%;}
     50%{background-position:100% 50%;}
     100%{background-position:0% 50%;}
+}
+
+/* Night background for final */
+.night{
+    background: radial-gradient(circle at center, #1a1a40, #000014);
 }
 
 /* Card */
@@ -40,52 +46,71 @@ body{
     background: rgba(255,255,255,0.65);
     backdrop-filter: blur(18px);
     box-shadow: 0 20px 70px rgba(0,0,0,0.08);
-    animation:fadeIn 2s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(30px);}
-    to{opacity:1; transform:translateY(0);}
+    transition:1s;
 }
 
 h1{
     font-size:30px;
     color:#6b3e2e;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 
+/* Chocolate button */
+.choco{
+    width:160px;
+    height:80px;
+    margin:15px auto;
+    border-radius:12px;
+    background: linear-gradient(#5c3a21,#3b2314);
+    cursor:pointer;
+    box-shadow:0 12px 25px rgba(0,0,0,0.3);
+    transition:0.3s;
+}
+.choco:hover{ transform:scale(1.07); }
+
+/* Message */
 .message{
     font-size:22px;
     color:#5a3a2a;
     min-height:120px;
     line-height:1.6;
-    transition:all 1s ease;
-    animation:softPulse 3s infinite;
+    transition:all 0.8s ease;
 }
 
-@keyframes softPulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.03);}
-    100%{transform:scale(1);}
+/* Moon */
+.moon{
+    width:120px;
+    height:120px;
+    background: radial-gradient(circle,#fff,#ddd);
+    border-radius:50%;
+    margin:20px auto;
+    box-shadow:0 0 40px #ffffffaa;
+    display:none;
+    animation:moonGlow 3s infinite alternate;
 }
 
-/* Glow title for final */
-.final-title{
-    font-size:36px;
-    color:#d63384;
-    animation:glow 1.5s infinite alternate;
+@keyframes moonGlow{
+    from{ box-shadow:0 0 20px #fff;}
+    to{ box-shadow:0 0 60px #fff;}
 }
 
-@keyframes glow{
-    from{text-shadow:0 0 10px #ff85a2;}
-    to{text-shadow:0 0 35px #ff4d6d;}
+/* Final Love Text */
+.final-love{
+    font-size:38px;
+    color:#ff4d6d;
+    animation:loveGlow 1.5s infinite alternate;
+}
+
+@keyframes loveGlow{
+    from{ text-shadow:0 0 10px #ff85a2;}
+    to{ text-shadow:0 0 40px #ff4d6d;}
 }
 
 /* Hearts */
 .heart{
     position:fixed;
     bottom:-20px;
-    animation:floatUp 8s linear forwards;
+    animation:floatUp 7s linear forwards;
 }
 
 @keyframes floatUp{
@@ -95,107 +120,120 @@ h1{
     }
 }
 
-/* Sparkles */
-.sparkle{
+/* Stars */
+.star{
     position:fixed;
-    animation:sparkle 2s linear forwards;
+    color:white;
+    animation:twinkle 2s infinite alternate;
 }
 
-@keyframes sparkle{
-    to{
-        transform:translateY(-60px);
-        opacity:0;
-    }
+@keyframes twinkle{
+    from{opacity:0.3;}
+    to{opacity:1;}
 }
 
-/* Audio */
 audio{
     width:100%;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="card">
     <h1 id="title">For Luna 🌙❤️</h1>
 
     <audio id="music" controls>
         <source src="https://cdn.pixabay.com/download/audio/2025/07/26/audio_dd8143520a.mp3" type="audio/mpeg">
     </audio>
 
+    <div class="choco" id="choco"></div>
+
     <div class="message" id="msg">
-        Press play and stay with me for a moment...
+        Sweet Moment 1 ❤️
     </div>
+
+    <div class="moon" id="moon"></div>
 </div>
 
 <script>
-const music = document.getElementById("music");
-const msg = document.getElementById("msg");
-const title = document.getElementById("title");
+let step = 0;
+let musicStarted = false;
 
-/* Story timeline (~90 seconds) */
-const story = [
-{time:5, text:"Sweet Moment 1 ❤️\nThe day you came into my life... everything became brighter."},
-{time:15, text:"Sweet Moment 2 ❤️\nYour smile became my daily happiness."},
-{time:25, text:"Sweet Moment 3 ❤️\nWith you, even ordinary days feel magical."},
-{time:35, text:"Sweet Moment 4 ❤️\nYou bring peace to my heart and warmth to my soul."},
-{time:45, text:"Sweet Moment 5 ❤️\nYou make my world softer, calmer, and more beautiful."},
-{time:55, text:"Luna… 🌙\nYou are not just special… you are my comfort."},
-{time:65, text:"You are my safe place.\nMy happiness.\nMy peace."},
-{time:75, text:"And today… I just want you to know…"},
-{time:85, text:"Happy Chocolate Day Luna ❤️\nYou are my moon, my love, my forever sweetness 🌙", final:true}
+const messages = [
+"Sweet Moment 1 ❤️\nThe day you came into my life… everything became brighter.",
+"Sweet Moment 2 ❤️\nYour smile became my favorite happiness.",
+"Sweet Moment 3 ❤️\nWith you, even ordinary days feel magical.",
+"Sweet Moment 4 ❤️\nYou make my world peaceful and beautiful.",
+"Sweet Moment 5 ❤️\nYou are my comfort, my joy, my home.",
+"Happy Chocolate Day Luna ❤️\nYou are my moon, my forever sweetness 🌙",
+"Luna…",
+"I Love You ❤️"
 ];
 
-music.addEventListener("timeupdate", () => {
-    const current = music.currentTime;
+const msg = document.getElementById("msg");
+const choco = document.getElementById("choco");
+const music = document.getElementById("music");
+const moon = document.getElementById("moon");
+const body = document.body;
+const title = document.getElementById("title");
 
-    story.forEach(step => {
-        if(current >= step.time && !step.shown){
-            step.shown = true;
-            showMessage(step);
-        }
-    });
-});
+choco.onclick = () => {
 
-function showMessage(step){
-    msg.style.opacity = 0;
+    if(!musicStarted){
+        music.play();
+        musicStarted = true;
+    }
 
-    setTimeout(()=>{
-        msg.innerText = step.text;
-        msg.style.opacity = 1;
-        createSparkles();
+    if(step < messages.length){
+        msg.style.opacity = 0;
 
-        if(step.final){
-            title.className = "final-title";
-            startHearts();
-        }
-    },500);
-}
+        setTimeout(()=>{
+            msg.innerText = messages[step];
+            msg.style.opacity = 1;
+            createHearts();
+            step++;
+
+            /* Proposal Mode */
+            if(step === 6){
+                body.classList.add("night");
+                moon.style.display = "block";
+                createStars();
+            }
+
+            if(step === messages.length){
+                title.className = "final-love";
+                title.innerText = "Luna ❤️";
+                choco.style.display = "none";
+            }
+
+        },400);
+    }
+};
 
 /* Hearts */
-function startHearts(){
-    setInterval(()=>{
+function createHearts(){
+    for(let i=0;i<6;i++){
         const heart = document.createElement("div");
         heart.className="heart";
         heart.innerHTML="❤️";
         heart.style.left=Math.random()*100+"vw";
         heart.style.fontSize=(Math.random()*20+15)+"px";
         document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),8000);
-    },300);
+        setTimeout(()=>heart.remove(),7000);
+    }
 }
 
-/* Sparkles */
-function createSparkles(){
-    for(let i=0;i<6;i++){
-        const s=document.createElement("div");
-        s.className="sparkle";
-        s.innerHTML="✨";
-        s.style.left=(window.innerWidth/2 + (Math.random()*120-60))+"px";
-        s.style.top=(window.innerHeight/2)+"px";
-        document.body.appendChild(s);
-        setTimeout(()=>s.remove(),2000);
+/* Stars for night sky */
+function createStars(){
+    for(let i=0;i<40;i++){
+        const star=document.createElement("div");
+        star.className="star";
+        star.innerHTML="✦";
+        star.style.left=Math.random()*100+"vw";
+        star.style.top=Math.random()*100+"vh";
+        star.style.fontSize=(Math.random()*6+6)+"px";
+        document.body.appendChild(star);
     }
 }
 </script>
