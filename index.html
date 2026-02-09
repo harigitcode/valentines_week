@@ -23,7 +23,7 @@ body{
     color:#fff;
 }
 
-/* Premium Glass Card */
+/* Glass Card */
 .container{
     position:relative;
     width:90%;
@@ -34,7 +34,6 @@ body{
     backdrop-filter:blur(15px);
     box-shadow:0 20px 40px rgba(0,0,0,0.2);
     text-align:center;
-    animation:fadeIn 1.5s ease;
 }
 
 h1{
@@ -42,11 +41,10 @@ h1{
     margin-bottom:10px;
 }
 
-/* Typing text */
 #message{
     min-height:70px;
-    line-height:1.6;
     margin:15px 0;
+    line-height:1.6;
 }
 
 /* Gallery */
@@ -54,26 +52,18 @@ h1{
     display:flex;
     justify-content:center;
     gap:10px;
-    flex-wrap:wrap;
 }
 
 .gallery img{
-    width:95px;
-    height:95px;
-    object-fit:cover;
+    width:90px;
+    height:90px;
     border-radius:12px;
-    transition:0.4s;
-}
-
-.gallery img:hover{
-    transform:scale(1.1);
+    object-fit:cover;
 }
 
 /* Buttons */
 .buttons{
     margin-top:20px;
-    position:relative;
-    height:80px;
 }
 
 button{
@@ -88,39 +78,40 @@ button{
 .yes{
     background:#ff2e63;
     color:#fff;
-    margin-right:10px;
 }
 
 .no{
     background:#444;
     color:#fff;
-    position:absolute;
-    left:200px; /* initial position */
-    top:10px;
 }
 
-.yes:hover{
-    transform:scale(1.1);
+/* Shake animation */
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    50%{transform:translateX(5px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
 }
 
-/* Floating Hearts */
+.shake{
+    animation:shake 0.4s;
+}
+
+/* Floating hearts */
 .heart{
     position:absolute;
     color:#ff2e63;
-    animation:float 5s linear infinite;
+    font-size:20px;
+    animation:float 3s linear forwards;
 }
 
 @keyframes float{
-    0%{transform:translateY(100vh);opacity:0;}
-    100%{transform:translateY(-10vh);opacity:1;}
+    from{transform:translateY(0);opacity:1;}
+    to{transform:translateY(-120px);opacity:0;}
 }
 
-@keyframes fadeIn{
-    from{opacity:0;transform:translateY(30px);}
-    to{opacity:1;transform:translateY(0);}
-}
-
-/* Celebration Screen */
+/* Celebration */
 .celebration{
     display:flex;
     flex-direction:column;
@@ -128,35 +119,19 @@ button{
     align-items:center;
     height:100vh;
     text-align:center;
-    animation:fadeIn 1s ease;
 }
 
-.firework{
-    position:absolute;
-    font-size:20px;
-    animation:explode 1s ease-out forwards;
-}
-
-@keyframes explode{
-    from{transform:scale(0);opacity:1;}
-    to{transform:scale(3);opacity:0;}
-}
-
-@media(max-width:480px){
-    h1{font-size:1.6rem;}
-}
 </style>
 </head>
 
 <body>
 
-<div class="container" id="container">
+<div class="container">
     <h1>Hi My Love ❤️</h1>
 
     <p id="message"></p>
 
     <div class="gallery">
-        <!-- Replace with your photos -->
         <img src="https://picsum.photos/100?1">
         <img src="https://picsum.photos/100?2">
         <img src="https://picsum.photos/100?3">
@@ -165,22 +140,16 @@ button{
     <h2>Will you be my Valentine? 💖</h2>
 
     <div class="buttons">
-        <button class="yes" onclick="yesClicked()">Yes ❤️</button>
+        <button class="yes" id="yesBtn">Yes ❤️</button>
         <button class="no" id="noBtn">No 😢</button>
     </div>
 </div>
 
-<!-- Music -->
-<audio autoplay loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
-</audio>
-
 <script>
 
 /* Typing Effect */
-const text = "From the day you came into my life, everything became beautiful. Your smile, your care, your love mean the world to me. Every moment with you is my favorite memory ❤️";
+const text = "From the day you came into my life, everything became beautiful. Your smile, your care, your love mean the world to me ❤️";
 let i = 0;
-
 function typeWriter(){
     if(i < text.length){
         document.getElementById("message").innerHTML += text.charAt(i);
@@ -190,63 +159,50 @@ function typeWriter(){
 }
 typeWriter();
 
-/* No Button moves only within ±50px and stays inside container */
 const noBtn = document.getElementById("noBtn");
-const container = document.getElementById("container");
+const yesBtn = document.getElementById("yesBtn");
 
-noBtn.addEventListener("mouseover", function(){
+let yesScale = 1;
 
-    const moveRange = 50;
+/* When trying to click NO */
+noBtn.addEventListener("mouseover", () => {
 
-    let currentLeft = noBtn.offsetLeft;
-    let currentTop = noBtn.offsetTop;
+    // Shake No button
+    noBtn.classList.add("shake");
+    setTimeout(()=>noBtn.classList.remove("shake"),400);
 
-    let newLeft = currentLeft + (Math.random() * moveRange * 2 - moveRange);
-    let newTop = currentTop + (Math.random() * moveRange * 2 - moveRange);
-
-    const maxLeft = container.clientWidth - noBtn.offsetWidth;
-    const maxTop = container.clientHeight - noBtn.offsetHeight;
-
-    newLeft = Math.max(0, Math.min(newLeft, maxLeft));
-    newTop = Math.max(0, Math.min(newTop, maxTop));
-
-    noBtn.style.left = newLeft + "px";
-    noBtn.style.top = newTop + "px";
+    // Increase Yes button size
+    yesScale += 0.1;
+    yesBtn.style.transform = `scale(${yesScale})`;
 });
 
-/* Yes Click Celebration */
-function yesClicked(){
+/* Heart burst on Yes hover */
+yesBtn.addEventListener("mouseover", (e)=>{
+    for(let j=0;j<5;j++){
+        createHeart(e.pageX, e.pageY);
+    }
+});
+
+function createHeart(x,y){
+    const heart = document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left = (x + Math.random()*20 -10) + "px";
+    heart.style.top = (y + Math.random()*20 -10) + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),3000);
+}
+
+/* Yes Click */
+yesBtn.onclick = function(){
     document.body.innerHTML = `
         <div class="celebration">
             <h1>Yay! ❤️</h1>
             <h2>I Love You Forever 💕</h2>
-            <p>You made my life beautiful!</p>
+            <p>You made my life the happiest!</p>
         </div>
     `;
-
-    setInterval(createFirework, 300);
-}
-
-function createFirework(){
-    const fire = document.createElement("div");
-    fire.className = "firework";
-    fire.innerHTML = "💖";
-    fire.style.left = Math.random()*100 + "vw";
-    fire.style.top = Math.random()*100 + "vh";
-    document.body.appendChild(fire);
-    setTimeout(()=>fire.remove(),1000);
-}
-
-/* Floating Hearts Background */
-setInterval(()=>{
-    const heart = document.createElement("div");
-    heart.className="heart";
-    heart.innerHTML="❤";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+10)+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),5000);
-},300);
+};
 
 </script>
 
