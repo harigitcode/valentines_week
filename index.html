@@ -13,7 +13,7 @@
     font-family:'Segoe UI',sans-serif;
 }
 
-/* Animated Light Gradient Background */
+/* Animated pastel background */
 body{
     height:100vh;
     display:flex;
@@ -22,7 +22,7 @@ body{
     background: linear-gradient(-45deg,#fff5f5,#ffe4e1,#f3e8ff,#e6f0ff);
     background-size:400% 400%;
     animation:gradientMove 12s ease infinite;
-    transition:0.6s;
+    overflow:hidden;
 }
 
 @keyframes gradientMove{
@@ -31,85 +31,69 @@ body{
     100%{background-position:0% 50%;}
 }
 
-/* Glass Card */
+/* Glass card */
 .container{
     width:90%;
     max-width:420px;
-    padding:35px 25px;
+    padding:40px 25px;
     text-align:center;
     border-radius:24px;
-    background: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.6);
     backdrop-filter: blur(16px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-    transition:0.4s;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
 
 /* Title */
 h1{
     font-size: clamp(24px,5vw,32px);
     color:#6b3e2e;
-    margin-bottom:8px;
+    margin-bottom:20px;
 }
 
-.subtitle{
-    color:#a0522d;
-    margin-bottom:25px;
-    font-size:15px;
-}
-
-/* Chocolate Button (No Image) */
+/* Chocolate button (CSS) */
 .choco-btn{
-    width:160px;
-    height:80px;
+    width:170px;
+    height:90px;
     margin:0 auto;
     background: linear-gradient(#5c3a21,#3b2314);
-    border-radius:12px;
+    border-radius:14px;
     position:relative;
     cursor:pointer;
     transition:0.3s;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    box-shadow:0 12px 25px rgba(0,0,0,0.25);
 }
 
-/* Chocolate squares */
 .choco-btn::before{
     content:"";
     position:absolute;
-    inset:8px;
+    inset:10px;
     background:
-        repeating-linear-gradient(
-            to right,
-            rgba(255,255,255,0.08) 0 2px,
-            transparent 2px 40px
-        ),
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,0.08) 0 2px,
-            transparent 2px 20px
-        );
+        repeating-linear-gradient(to right, rgba(255,255,255,0.08) 0 2px, transparent 2px 40px),
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 2px, transparent 2px 25px);
     border-radius:8px;
 }
 
 .choco-btn:hover{
-    transform:scale(1.08);
+    transform:scale(1.07);
 }
 
 /* Message */
 .message{
     margin-top:25px;
-    min-height:70px;
-    font-size: clamp(17px,4vw,21px);
+    min-height:80px;
+    font-size: clamp(18px,4vw,22px);
     color:#5a3a2a;
     font-weight:500;
-    transition:0.4s;
+    line-height:1.4;
 }
 
-/* Final Glow */
+/* Final */
 .final{
     display:none;
 }
 
 .celebrate{
-    font-size: clamp(28px,6vw,38px);
+    font-size: clamp(30px,6vw,38px);
     color:#d63384;
     animation:glow 1.2s infinite alternate;
 }
@@ -119,7 +103,7 @@ h1{
     to{ text-shadow:0 0 30px #ff4d6d;}
 }
 
-/* Floating Hearts */
+/* Floating hearts */
 .heart{
     position:fixed;
     bottom:-20px;
@@ -134,11 +118,10 @@ h1{
     }
 }
 
-/* Sparkle */
+/* Sparkles */
 .sparkle{
     position:fixed;
-    color:#ff85a2;
-    animation:sparkleMove 3s linear forwards;
+    animation:sparkleMove 2.5s linear forwards;
 }
 
 @keyframes sparkleMove{
@@ -151,19 +134,23 @@ h1{
 </head>
 <body>
 
+<!-- Free romantic music -->
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9c4d5b.mp3?filename=romantic-piano-ambient-110624.mp3" type="audio/mp3">
+</audio>
+
 <div class="container">
     <h1 id="title">For Luna 🌙❤️</h1>
-    <div class="subtitle">Tap the chocolate, my love...</div>
 
     <div class="choco-btn" id="choco"></div>
 
     <div class="message" id="msg">
-        Every click is a sweet memory of us...
+        Sweet Moment 1 ❤️
     </div>
 
     <div class="final" id="final">
         <div class="celebrate">Happy Chocolate Day Luna ❤️</div>
-        <p style="margin-top:10px;font-size:18px;color:#6b3e2e;">
+        <p style="margin-top:12px;font-size:19px;color:#6b3e2e;">
             You are my moon, my love, my forever sweetness 🌙
         </p>
     </div>
@@ -171,23 +158,30 @@ h1{
 
 <script>
 let step = 0;
+let musicStarted = false;
 
 const messages = [
-"Luna, the day you came into my life, everything changed.",
-"Your smile is my favorite happiness.",
-"Every moment with you feels magical.",
-"You make my world brighter and more beautiful.",
-"You are the sweetest part of my life."
+"Sweet Moment 1 ❤️\nLuna, the day you came into my life, everything became magical.",
+"Sweet Moment 2 ❤️\nYour smile is my favorite happiness.",
+"Sweet Moment 3 ❤️\nEvery moment with you feels like a beautiful dream.",
+"Sweet Moment 4 ❤️\nYou make my world brighter and more beautiful.",
+"Sweet Moment 5 ❤️\nYou are the sweetest part of my life."
 ];
 
-const title = document.getElementById("title");
 const msg = document.getElementById("msg");
 const choco = document.getElementById("choco");
 const final = document.getElementById("final");
+const music = document.getElementById("music");
 
 choco.onclick = () => {
+
+    // Start music on first interaction (browser policy)
+    if(!musicStarted){
+        music.play();
+        musicStarted = true;
+    }
+
     if(step < messages.length){
-        title.innerText = "Sweet Moment " + (step+1) + " ❤️";
         msg.innerText = messages[step];
         createSparkles();
         step++;
@@ -216,14 +210,14 @@ function startHearts(){
 }
 
 function createSparkles(){
-    for(let i=0;i<8;i++){
+    for(let i=0;i<6;i++){
         const s=document.createElement("div");
         s.className="sparkle";
         s.innerHTML="✨";
         s.style.left=(window.innerWidth/2 + (Math.random()*120-60))+"px";
         s.style.top=(window.innerHeight/2)+"px";
         document.body.appendChild(s);
-        setTimeout(()=>s.remove(),3000);
+        setTimeout(()=>s.remove(),2500);
     }
 }
 </script>
