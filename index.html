@@ -22,6 +22,7 @@ transition:2s;
 background:radial-gradient(circle,#1a1a40,#000014);
 }
 
+/* Container */
 .container{
 width:92%;
 max-width:420px;
@@ -33,6 +34,7 @@ backdrop-filter:blur(12px);
 box-shadow:0 15px 50px rgba(0,0,0,0.08);
 }
 
+/* Start */
 .start{
 padding:12px 26px;
 border:none;
@@ -52,13 +54,8 @@ background:radial-gradient(circle at 30% 30%,#fff,#ddd);
 box-shadow:0 0 40px #fff;
 position:relative;
 margin:15px auto;
-animation:walk 8s linear infinite, float 4s ease-in-out infinite;
-}
-
-@keyframes walk{
-0%{left:-40px;}
-50%{left:40px;}
-100%{left:-40px;}
+animation:float 4s ease-in-out infinite;
+transition:2s;
 }
 
 @keyframes float{
@@ -66,6 +63,12 @@ animation:walk 8s linear infinite, float 4s ease-in-out infinite;
 50%{transform:translateY(-8px);}
 }
 
+/* Zoom toward user */
+.zoom{
+transform:scale(1.8);
+}
+
+/* Face */
 .eye{
 width:8px;height:8px;background:#333;border-radius:50%;
 position:absolute;top:40px;
@@ -90,11 +93,12 @@ top:55px;
 .blush.left{left:18px;}
 .blush.right{right:18px;}
 
+/* Text */
 .bubble{
 font-size:18px;
 min-height:70px;
 color:#5a3a2a;
-transition:opacity 0.8s;
+transition:opacity 0.6s;
 }
 
 /* Hearts */
@@ -107,33 +111,78 @@ animation:rise 6s linear forwards;
 to{transform:translateY(-110vh);opacity:0;}
 }
 
-/* Proposal */
-.proposal{
-display:none;
-margin-top:10px;
+/* Love particles */
+.love{
+position:fixed;
+bottom:-20px;
+font-size:14px;
+opacity:0.6;
+animation:rise 8s linear forwards;
 }
 
-.proposal button{
-padding:10px 18px;
-margin:8px;
-border:none;
-border-radius:15px;
-font-size:16px;
-cursor:pointer;
+/* Stars */
+.star{
+position:fixed;
+color:white;
+animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+from{opacity:0.4;}
+to{opacity:1;}
 }
 
-.yes{background:#4CAF50;color:white;}
-.no{background:#ff6b81;color:white;position:relative;}
-
-.final{
-font-size:30px;
-color:#ff4d6d;
-animation:glow 1.5s infinite alternate;
+/* LUNA text */
+.luna-stars{
+position:fixed;
+top:18%;
+width:100%;
+text-align:center;
+font-size:42px;
+color:white;
+letter-spacing:12px;
+opacity:0;
+transition:2s;
+text-shadow:0 0 10px white,0 0 30px white;
 }
 
-@keyframes glow{
-from{text-shadow:0 0 10px #ff85a2;}
-to{text-shadow:0 0 35px #ff4d6d;}
+/* Hug heart */
+.hug-heart{
+position:absolute;
+width:40px;
+height:40px;
+background:#ff6b81;
+transform:rotate(-45deg);
+top:35px;
+left:50%;
+margin-left:-20px;
+animation:pulse 1.5s infinite alternate;
+}
+.hug-heart:before,
+.hug-heart:after{
+content:"";
+position:absolute;
+width:40px;
+height:40px;
+background:#ff6b81;
+border-radius:50%;
+}
+.hug-heart:before{top:-20px;}
+.hug-heart:after{left:20px;}
+
+@keyframes pulse{
+from{transform:rotate(-45deg) scale(1);}
+to{transform:rotate(-45deg) scale(1.2);}
+}
+
+/* Confetti */
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+animation:fall 5s linear forwards;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
 
 audio{display:none;}
@@ -148,7 +197,7 @@ audio{display:none;}
 <button class="start" id="start">Tap to Begin</button>
 
 <audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2025/07/26/audio_dd8143520a.mp3" type="audio/mpeg">
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9c4d5b.mp3?filename=romantic-piano-ambient-110624.mp3">
 </audio>
 
 <div id="scene" style="display:none;">
@@ -160,14 +209,15 @@ audio{display:none;}
 
 <div class="bubble" id="text"></div>
 
-<div class="proposal" id="proposal">
+<div class="luna-stars" id="lunaStars">L U N A</div>
+
+<div id="proposal" style="display:none;margin-top:10px;">
 <p>Will you be mine forever? 💍</p>
-<button class="yes" onclick="yesClicked()">Yes</button>
-<button class="no" id="noBtn">No</button>
+<button onclick="yesClicked()" style="padding:8px 16px;margin:5px;background:#4CAF50;color:#fff;border:none;border-radius:10px;">Yes</button>
 </div>
 
-<div class="final" id="finalText" style="display:none;">
-I Love You Luna ❤️
+<div id="finalText" style="display:none;font-size:28px;color:#ff4d6d;">
+I Love You My Luna ❤️
 </div>
 
 </div>
@@ -175,7 +225,7 @@ I Love You Luna ❤️
 </div>
 
 <script>
-window.onload = function(){
+window.onload=function(){
 
 const start=document.getElementById("start");
 const scene=document.getElementById("scene");
@@ -184,55 +234,60 @@ const text=document.getElementById("text");
 const moon=document.getElementById("moon");
 const proposal=document.getElementById("proposal");
 const finalText=document.getElementById("finalText");
-const noBtn=document.getElementById("noBtn");
+const lunaStars=document.getElementById("lunaStars");
 
 const story=[
 "Hi Luna… I'm your little moon 🌙",
-"I came to tell you something special…",
-"You make someone’s world brighter.",
-"You bring peace to his heart.",
+"I came to tell you something from his heart…",
+"You make his world brighter every day.",
+"You are his calm in chaos.",
 "He smiles because of you.",
-"Today he wants to say…",
+"You are his happiness… his peace.",
 "Happy Chocolate Day Luna ❤️",
-"You are his moon… his happiness.",
-"And he wants to ask you something…"
+"Forever isn’t enough with you.",
+"And now… he wants to ask you something…"
 ];
 
 start.onclick=()=>{
 start.style.display="none";
 scene.style.display="block";
 music.play();
+createLoveParticles();
 runStory();
 };
 
 let i=0;
 
+function typeText(msg){
+text.innerHTML="";
+let index=0;
+let typing=setInterval(()=>{
+text.innerHTML+=msg.charAt(index);
+index++;
+if(index>=msg.length) clearInterval(typing);
+},30);
+}
+
 function runStory(){
 let interval=setInterval(()=>{
 if(i<story.length){
-showText(story[i]);
+typeText(story[i]);
 createHearts();
 i++;
 
 if(i===5){
 document.body.classList.add("night");
-addBlush(); // moon blush
+createStars();
+addBlush();
 }
 
 if(i===story.length){
 clearInterval(interval);
 proposal.style.display="block";
+moon.classList.add("zoom"); // zoom toward user
 }
 }
 },3000);
-}
-
-function showText(msg){
-text.style.opacity=0;
-setTimeout(()=>{
-text.innerText=msg;
-text.style.opacity=1;
-},300);
 }
 
 function addBlush(){
@@ -244,8 +299,31 @@ moon.appendChild(b1);
 moon.appendChild(b2);
 }
 
+window.yesClicked=function(){
+proposal.style.display="none";
+finalText.style.display="block";
+
+let heart=document.createElement("div");
+heart.className="hug-heart";
+moon.appendChild(heart);
+
+lunaStars.style.opacity=1;
+
+createConfetti();
+speakLove();
+};
+
+function speakLove(){
+let speech=new SpeechSynthesisUtterance(
+"I love you my Luna. You are my forever, my peace, my happiness, and my home."
+);
+speech.rate=0.85;
+speech.pitch=1.1;
+speechSynthesis.speak(speech);
+}
+
 function createHearts(){
-for(let j=0;j<3;j++){
+for(let j=0;j<2;j++){
 let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="❤️";
@@ -255,22 +333,38 @@ setTimeout(()=>h.remove(),6000);
 }
 }
 
-/* Proposal actions */
-noBtn.onmouseover=function(){
-noBtn.style.left=Math.random()*200-100+"px";
-noBtn.style.top=Math.random()*40-20+"px";
-};
+function createLoveParticles(){
+setInterval(()=>{
+let p=document.createElement("div");
+p.className="love";
+p.innerHTML="💕";
+p.style.left=Math.random()*100+"vw";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),8000);
+},400);
+}
 
-window.yesClicked=function(){
-proposal.style.display="none";
-finalText.style.display="block";
+function createStars(){
+for(let j=0;j<60;j++){
+let s=document.createElement("div");
+s.className="star";
+s.innerHTML="✦";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*100+"vh";
+document.body.appendChild(s);
+}
+}
 
-/* voice */
-let speech=new SpeechSynthesisUtterance("I love you Luna");
-speech.rate=0.9;
-speech.pitch=1.2;
-speechSynthesis.speak(speech);
-};
+function createConfetti(){
+for(let i=0;i<150;i++){
+let c=document.createElement("div");
+c.className="confetti";
+c.style.left=Math.random()*100+"vw";
+c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),5000);
+}
+}
 
 };
 </script>
