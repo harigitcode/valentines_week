@@ -3,219 +3,206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Chocolate Day Luna 🍫</title>
+<title>For My Love ❤️</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
 
 body{
     height:100vh;
-    background:linear-gradient(135deg,#4e2a1e,#8b5a3c);
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
-    color:#fff;
+    transition:0.8s;
 }
+
+/* Romantic Background Themes */
+.bg1{ background: linear-gradient(135deg,#fff5f5,#ffe4e1); }
+.bg2{ background: linear-gradient(135deg,#fce4ff,#f3d1ff); }
+.bg3{ background: linear-gradient(135deg,#ffe9ec,#ffd6dc); }
+.bg4{ background: linear-gradient(135deg,#fff3e6,#ffe0b3); }
+.bg5{ background: linear-gradient(135deg,#ffe6f0,#ffccd9); }
+.bgFinal{ background: linear-gradient(135deg,#ffd6e0,#ff9aa2); }
 
 /* Card */
 .container{
     width:90%;
-    max-width:520px;
-    padding:30px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(12px);
-    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+    max-width:420px;
+    padding:30px 20px;
     text-align:center;
+    border-radius:22px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    transition:0.5s;
 }
 
-/* Title */
-.title{
-    font-size:2.2rem;
-    font-weight:bold;
-    background:linear-gradient(90deg,#fff,#f5d7b2,#fff);
-    background-size:200%;
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:shine 3s infinite;
-}
-@keyframes shine{
-    0%{background-position:0%;}
-    100%{background-position:200%;}
+h1{
+    font-size: clamp(22px,5vw,30px);
+    color:#6b3e2e;
+    margin-bottom:10px;
 }
 
-#message{
-    margin:15px 0;
-    line-height:1.6;
-}
-
-/* Real Chocolate Bar */
-.chocolate{
-    display:flex;
-    justify-content:center;
-    gap:6px;
-    margin:25px auto;
-}
-
-.bar-piece{
-    width:60px;
-    height:90px;
-    background:linear-gradient(145deg,#6b3a1a,#3d1f0d);
-    border-radius:6px;
-    box-shadow:
-        inset -4px -4px 6px rgba(0,0,0,0.4),
-        inset 4px 4px 6px rgba(255,255,255,0.05),
-        0 4px 10px rgba(0,0,0,0.4);
-    position:relative;
-    transition:0.4s;
-}
-
-/* Chocolate square lines (real look) */
-.bar-piece::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:50%;
-    width:2px;
-    height:100%;
-    background:rgba(0,0,0,0.3);
-    transform:translateX(-50%);
-}
-
-.eaten{
-    transform:translateY(20px) scale(0.8);
-    opacity:0;
-}
-
-/* Button */
-button{
-    padding:12px 25px;
+.subtitle{
+    color:#a0522d;
     font-size:16px;
-    border:none;
-    border-radius:25px;
-    cursor:pointer;
-    background:#d2691e;
-    color:#fff;
+    margin-bottom:15px;
 }
 
-/* Floating chocolate effect */
-.choco{
-    position:absolute;
-    font-size:22px;
-    animation:float 4s linear forwards;
+/* Chocolate */
+#choco{
+    width: clamp(160px,55vw,260px);
+    cursor:pointer;
+    transition:0.3s;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
 }
-@keyframes float{
-    from{transform:translateY(0);opacity:1;}
-    to{transform:translateY(-120px);opacity:0;}
+
+#choco:hover{
+    transform: scale(1.1) rotate(-3deg);
+}
+
+.message{
+    margin-top:15px;
+    min-height:60px;
+    font-size: clamp(16px,4vw,20px);
+    color:#5a3a2a;
+    font-weight:500;
 }
 
 /* Final */
 .final{
-    text-align:center;
-    animation:fadeIn 2s ease;
+    display:none;
 }
-@keyframes fadeIn{
-    from{opacity:0;transform:scale(0.8);}
-    to{opacity:1;transform:scale(1);}
+
+.celebrate{
+    font-size: clamp(26px,6vw,36px);
+    color:#d63384;
+    animation:glow 1s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 5px #ff85a2;}
+    to{ text-shadow:0 0 25px #ff4d6d;}
+}
+
+/* Hearts */
+.heart{
+    position:fixed;
+    bottom:-20px;
+    animation:floatUp 5s linear forwards;
+}
+
+@keyframes floatUp{
+    to{
+        transform:translateY(-100vh);
+        opacity:0;
+    }
 }
 </style>
 </head>
 
-<body>
+<body class="bg1">
 
 <div class="container">
+    <h1 id="title">For You, Priya ❤️</h1>
+    <div class="subtitle">Take a chocolate bite...</div>
 
-    <div class="title">Happy Chocolate Day Luna 🍫</div>
+    <img id="choco"
+    src="https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97184.png">
 
-    <p id="message"></p>
+    <div class="message" id="msg">
+        Click the chocolate to start our sweet story...
+    </div>
 
-    <!-- 5 Real Chocolate Bars -->
-    <div class="chocolate" id="chocoBar"></div>
-
-    <button id="eatBtn">Give Chocolate 🍫</button>
-
-    <br><br>
-    <button onclick="shareWhatsApp()">Share on WhatsApp</button>
-
+    <div class="final" id="final">
+        <div class="celebrate">Happy Chocolate Day ❤️</div>
+        <p style="margin-top:10px;font-size:18px;color:#6b3e2e;">
+            I love you more than chocolates 🍫
+        </p>
+    </div>
 </div>
 
 <script>
+let step = 0;
 
-/* Typing Message */
-const text = "Luna, every piece of this chocolate is a little sweetness for you, because you make my life sweeter every day ❤️";
-let i = 0;
-function typeWriter(){
-    if(i < text.length){
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter,40);
-    }
+const story = [
+{
+    bg:"bg1",
+    title:"First Bite 🍫",
+    msg:"The day you came into my life, everything became sweeter."
+},
+{
+    bg:"bg2",
+    title:"Second Bite 💖",
+    msg:"Your smile is my daily happiness."
+},
+{
+    bg:"bg3",
+    title:"Third Bite 🌸",
+    msg:"Every moment with you feels special and magical."
+},
+{
+    bg:"bg4",
+    title:"Fourth Bite ✨",
+    msg:"You make my world beautiful and complete."
+},
+{
+    bg:"bg5",
+    title:"Last Bite ❤️",
+    msg:"You are the sweetest part of my life."
 }
-typeWriter();
+];
 
-/* Create 5 chocolate pieces */
-const container = document.getElementById("chocoBar");
-let total = 5;
-let eaten = 0;
+const images = [
+"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97184.png",
+"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97181.png",
+"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97178.png",
+"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97175.png",
+"https://pngimg.com/uploads/chocolate_bar/chocolate_bar_PNG97170.png"
+];
 
-for(let i=0;i<total;i++){
-    const piece = document.createElement("div");
-    piece.className="bar-piece";
-    container.appendChild(piece);
-}
+const body = document.body;
+const title = document.getElementById("title");
+const msg = document.getElementById("msg");
+const choco = document.getElementById("choco");
+const final = document.getElementById("final");
 
-const pieces = document.querySelectorAll(".bar-piece");
-const btn = document.getElementById("eatBtn");
-
-/* Eat one piece per click */
-btn.onclick = function(e){
-
-    if(eaten < total){
-        pieces[eaten].classList.add("eaten");
-        eaten++;
-
-        // floating chocolate effect
-        for(let j=0;j<3;j++){
-            createChoco(e.pageX,e.pageY);
-        }
+choco.onclick = () => {
+    if(step < story.length){
+        body.className = story[step].bg;
+        title.innerText = story[step].title;
+        msg.innerText = story[step].msg;
+        choco.src = images[step];
+        step++;
     }
 
-    if(eaten === total){
-        setTimeout(showFinal,500);
+    if(step === story.length){
+        setTimeout(()=>{
+            choco.style.display="none";
+            msg.style.display="none";
+            final.style.display="block";
+            body.className="bgFinal";
+            startHearts();
+        },400);
     }
 };
 
-function createChoco(x,y){
-    const c = document.createElement("div");
-    c.className="choco";
-    c.innerHTML="🍫";
-    c.style.left=x+"px";
-    c.style.top=y+"px";
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(),4000);
+function startHearts(){
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(Math.random()*20+15)+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),5000);
+    },300);
 }
-
-/* Final Screen */
-function showFinal(){
-    document.body.innerHTML = `
-    <div class="final">
-        <h1 style="font-size:3rem;">Luna ❤️</h1>
-        <h2>Chocolate Finished! 🍫</h2>
-        <p style="font-size:1.4rem;margin-top:10px;">
-        Just like this chocolate,<br>
-        you make my life sweet and complete 💕
-        </p>
-    </div>
-    `;
-}
-
-/* WhatsApp Share */
-function shareWhatsApp(){
-    const msg = "Happy Chocolate Day Luna 🍫❤️ " + window.location.href;
-    window.open("https://wa.me/?text="+encodeURIComponent(msg));
-}
-
 </script>
 
 </body>
