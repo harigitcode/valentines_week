@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Luna ❤️</title>
+<title>For Luna 🌙</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
@@ -14,166 +14,96 @@ display:flex;
 justify-content:center;
 align-items:center;
 overflow:hidden;
-background:linear-gradient(-45deg,#fff5f5,#ffe4e1,#f3e8ff,#e6f0ff);
-background-size:400% 400%;
-animation:bgMove 18s ease infinite;
-transition:1.5s;
+background:linear-gradient(135deg,#fff5f5,#f3e8ff,#e6f0ff);
+transition:2s;
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
-}
-
-.blur{
-filter:blur(10px);
-}
-
-/* Main card */
-.container{
-width:92%;
-max-width:420px;
-padding:30px 20px;
-text-align:center;
-border-radius:26px;
-background:rgba(255,255,255,0.75);
-backdrop-filter:blur(18px);
-box-shadow:0 20px 70px rgba(0,0,0,0.08);
-}
-
-/* LOCK SCREEN */
-.lock{
-position:fixed;
-inset:0;
-display:flex;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,0.15);
-backdrop-filter:blur(6px);
-z-index:10;
-}
-
-.lock-card{
-background:white;
-padding:30px 20px;
-border-radius:20px;
-width:90%;
-max-width:320px;
-text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,0.15);
-}
-
-.lock-card h2{color:#6b3e2e;margin-bottom:5px;}
-.hint{font-size:14px;color:#888;margin-bottom:10px;}
-
-input{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-font-size:16px;
-outline:none;
-}
-
-/* hearts while typing */
-.typing-heart{
-position:fixed;
-animation:floatUp 4s linear forwards;
-}
-
-/* fingerprint */
-.fingerprint{
-width:70px;
-height:70px;
-border-radius:50%;
-border:3px solid #ff6b81;
-margin:15px auto;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:30px;
-animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.1);}
-100%{transform:scale(1);}
-}
-
-.unlocking{
-animation:unlockAnim 1s forwards;
-}
-
-@keyframes unlockAnim{
-from{transform:scale(1);}
-to{transform:scale(1.3);opacity:0;}
-}
-
-.error{color:red;font-size:13px;margin-top:6px;}
-
-/* Character (cute heart buddy) */
-.character{
-font-size:50px;
-margin:10px auto;
-animation:dance 1s infinite;
-}
-
-@keyframes dance{
-0%{transform:translateY(0);}
-50%{transform:translateY(-10px) rotate(-5deg);}
-100%{transform:translateY(0) rotate(5deg);}
-}
-
-/* Message */
-.message{
-font-size:20px;
-min-height:90px;
-color:#5a3a2a;
-margin-top:10px;
-}
-
-/* Chocolate */
-.choco{
-width:150px;
-height:70px;
-background:linear-gradient(#5c3a21,#3b2314);
-margin:10px auto;
-border-radius:10px;
-box-shadow:0 10px 20px rgba(0,0,0,0.3);
-transition:1s;
-}
-
-/* Night */
+/* Night mode */
 .night{
 background:radial-gradient(circle,#1a1a40,#000014);
 }
 
-/* Moon */
+/* Card */
+.container{
+width:90%;
+max-width:380px;
+padding:30px 20px;
+text-align:center;
+border-radius:24px;
+background:rgba(255,255,255,0.75);
+backdrop-filter:blur(14px);
+box-shadow:0 15px 50px rgba(0,0,0,0.08);
+}
+
+/* Start button */
+.start{
+padding:12px 28px;
+border:none;
+border-radius:20px;
+background:#ff6b81;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+/* Moon character */
 .moon{
 width:120px;
 height:120px;
+margin:10px auto;
 border-radius:50%;
-background:radial-gradient(circle,#fff,#ddd);
-margin:15px auto;
-box-shadow:0 0 60px #fff;
-display:none;
-animation:moonGlow 3s infinite alternate;
+background:radial-gradient(circle at 30% 30%,#fff,#ddd);
+box-shadow:0 0 40px #fff;
+position:relative;
+animation:moonFloat 3s ease-in-out infinite;
 }
 
-@keyframes moonGlow{
-from{box-shadow:0 0 30px #fff;}
-to{box-shadow:0 0 90px #fff;}
+@keyframes moonFloat{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
 }
 
-/* Hearts floating */
+/* Moon face */
+.eye{
+width:8px;height:8px;background:#333;border-radius:50%;
+position:absolute;top:45px;
+}
+.eye.left{left:35px;}
+.eye.right{right:35px;}
+
+.smile{
+width:30px;height:15px;border-bottom:3px solid #333;
+border-radius:0 0 30px 30px;
+position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+}
+
+/* Speech bubble */
+.bubble{
+margin-top:10px;
+font-size:18px;
+color:#5a3a2a;
+min-height:80px;
+transition:opacity 1s;
+}
+
+/* Final text */
+.final{
+font-size:32px;
+color:#ff4d6d;
+animation:glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #ff85a2;}
+to{text-shadow:0 0 35px #ff4d6d;}
+}
+
+/* Hearts */
 .heart{
 position:fixed;
 bottom:-20px;
-animation:floatUp 7s linear forwards;
+animation:floatUp 5s linear forwards;
 }
-
 @keyframes floatUp{
 to{transform:translateY(-110vh);opacity:0;}
 }
@@ -184,214 +114,122 @@ position:fixed;
 color:white;
 animation:twinkle 2s infinite alternate;
 }
-
 @keyframes twinkle{
-from{opacity:0.3;}
+from{opacity:0.4;}
 to{opacity:1;}
 }
 
-/* Confetti */
-.confetti{
-position:fixed;
-width:8px;
-height:8px;
-animation:confettiFall 5s linear forwards;
-}
-
-@keyframes confettiFall{
-to{transform:translateY(110vh) rotate(720deg);}
-}
-
-.final{
-font-size:36px;
-color:#ff4d6d;
-animation:glow 1.5s infinite alternate;
-}
-
-@keyframes glow{
-from{text-shadow:0 0 10px #ff85a2;}
-to{text-shadow:0 0 40px #ff4d6d;}
-}
-
-audio{width:100%;margin-top:5px;}
+/* Hidden audio */
+audio{display:none;}
 </style>
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
-<div class="lock" id="lock">
-<div class="lock-card">
+<div class="container">
+
 <h2>For Luna 🌙❤️</h2>
-<div class="hint">Hint: Your name is the key</div>
 
-<div class="fingerprint" id="finger">🔒</div>
+<button class="start" id="start">Tap to Begin</button>
 
-<input type="password" id="pass" placeholder="Enter password">
-<div class="error" id="error"></div>
-</div>
-</div>
-
-<!-- MAIN CONTENT -->
-<div class="container blur" id="main">
-
-<h2 id="title">For Luna ❤️</h2>
-
-<audio id="music" controls>
+<!-- Hidden background music -->
+<audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2025/07/26/audio_dd8143520a.mp3" type="audio/mpeg">
 </audio>
 
-<div class="character">💗</div>
+<div id="moonArea" style="display:none;">
+<div class="moon">
+<div class="eye left"></div>
+<div class="eye right"></div>
+<div class="smile"></div>
+</div>
 
-<div class="choco" id="choco"></div>
-<div class="message" id="msg">Unlock the surprise...</div>
-<div class="moon" id="moon"></div>
+<div class="bubble" id="text"></div>
+</div>
 
 </div>
 
 <script>
-const PASSWORD="luna";
-let attempts=0;
+const start=document.getElementById("start");
+const music=document.getElementById("music");
+const text=document.getElementById("text");
+const moonArea=document.getElementById("moonArea");
 
-const lock=document.getElementById("lock");
-const main=document.getElementById("main");
-const input=document.getElementById("pass");
-const error=document.getElementById("error");
-const finger=document.getElementById("finger");
-
-/* typing hearts */
-input.addEventListener("input",()=>{
-const h=document.createElement("div");
-h.className="typing-heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.fontSize=(Math.random()*20+10)+"px";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),4000);
-});
-
-/* password check */
-input.addEventListener("keypress",e=>{
-if(e.key==="Enter") check();
-});
-
-function check(){
-if(input.value.toLowerCase()===PASSWORD){
-finger.innerHTML="🔓";
-finger.classList.add("unlocking");
-
-setTimeout(()=>{
-lock.style.display="none";
-main.classList.remove("blur");
-startStory();
-},800);
-
-}else{
-attempts++;
-error.innerText="Wrong password ❤️";
-if(attempts>=3){
-error.innerText="Even if the password is wrong… you are still my Luna ❤️";
-}
-}
-}
-
-/* STORY */
 const story=[
-"Sweet Moment 1 ❤️\nThe day you came into my life… everything changed.",
-"Your smile became my happiness.",
-"You make ordinary days magical.",
-"You are my peace.",
-"You are my comfort.",
+"Hi Luna… I'm your little moon 🌙",
+"I see how special you are to someone…",
+"You make his world brighter every day.",
+"He smiles because of you.",
+"He feels peace because of you.",
+"Today he just wants to say…",
 "Happy Chocolate Day Luna ❤️",
-"You are my moon 🌙",
-"Luna…",
+"You are his moon, his happiness…",
 "I Love You ❤️"
 ];
 
-let step=0;
-let size=150;
+/* Start experience */
+start.onclick=()=>{
+start.style.display="none";
+moonArea.style.display="block";
+music.play(); // background audio
+runStory();
+};
 
-function startStory(){
-document.getElementById("music").play();
-run();
-}
-
-function run(){
+let i=0;
+function runStory(){
 let interval=setInterval(()=>{
-if(step<story.length){
 
-typeText(story[step]);
+if(i<story.length){
+typeText(story[i]);
 createHearts();
+i++;
 
-/* chocolate bite */
-size-=10;
-if(size>40){
-choco.style.width=size+"px";
-choco.style.height=size/2+"px";
-}
-
-step++;
-
-if(step===6){
+if(i===5){
 document.body.classList.add("night");
-document.getElementById("moon").style.display="block";
 createStars();
 }
 
-if(step===story.length){
-document.getElementById("title").className="final";
-createConfetti();
+if(i===story.length){
+text.className="bubble final";
+}
+
+}else{
 clearInterval(interval);
 }
 
-}else clearInterval(interval);
-
-},8000);
+},3500); // 3.5 sec × 9 ≈ 30 sec
 }
 
-/* typing */
-function typeText(text){
-const msg=document.getElementById("msg");
-msg.innerHTML="";
-let i=0;
-let t=setInterval(()=>{
-msg.innerHTML+=text.charAt(i);
-i++;
-if(i>=text.length) clearInterval(t);
-},30);
+/* typing effect */
+function typeText(msg){
+text.style.opacity=0;
+setTimeout(()=>{
+text.innerText=msg;
+text.style.opacity=1;
+},400);
 }
 
-/* effects */
+/* hearts */
 function createHearts(){
-for(let i=0;i<5;i++){
-const h=document.createElement("div");
+for(let j=0;j<4;j++){
+let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="❤️";
 h.style.left=Math.random()*100+"vw";
-h.style.fontSize=(Math.random()*20+15)+"px";
+h.style.fontSize=(Math.random()*20+12)+"px";
 document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
+setTimeout(()=>h.remove(),5000);
 }
 }
 
+/* stars */
 function createStars(){
-for(let i=0;i<50;i++){
-const s=document.createElement("div");
+for(let j=0;j<40;j++){
+let s=document.createElement("div");
 s.className="star";
 s.innerHTML="✦";
 s.style.left=Math.random()*100+"vw";
 s.style.top=Math.random()*100+"vh";
 document.body.appendChild(s);
-}
-}
-
-function createConfetti(){
-for(let i=0;i<120;i++){
-const c=document.createElement("div");
-c.className="confetti";
-c.style.left=Math.random()*100+"vw";
-c.style.background=`hsl(${Math.random()*360},80%,60%)`;
-document.body.appendChild(c);
-setTimeout(()=>c.remove(),5000);
 }
 }
 </script>
