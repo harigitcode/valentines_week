@@ -18,7 +18,7 @@ body{
     color:#fff;
 }
 
-/* Card */
+/* Main Card */
 .container{
     position:relative;
     width:90%;
@@ -41,11 +41,14 @@ body{
     -webkit-text-fill-color:transparent;
     animation:shine 3s infinite;
 }
-@keyframes shine{0%{background-position:0%}100%{background-position:200%}}
+@keyframes shine{
+    0%{background-position:0%;}
+    100%{background-position:200%;}
+}
 
 #message{margin:15px 0;line-height:1.6;}
 
-/* Picsum Gallery */
+/* Gallery */
 .gallery{
     display:flex;
     justify-content:center;
@@ -59,7 +62,7 @@ body{
     object-fit:cover;
 }
 
-/* Love meter */
+/* Love Meter */
 .bar{
     width:100%;
     height:16px;
@@ -104,7 +107,7 @@ button{
     right:20px;
 }
 
-/* Hearts */
+/* Floating hearts */
 .heart{
     position:absolute;
     color:#ff2e63;
@@ -115,14 +118,6 @@ button{
     to{transform:translateY(-120px);opacity:0;}
 }
 
-.celebration{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    text-align:center;
-}
 </style>
 </head>
 
@@ -134,7 +129,7 @@ button{
 
     <p id="message"></p>
 
-    <!-- Picsum images -->
+    <!-- Picsum Images -->
     <div class="gallery">
         <img src="https://picsum.photos/100?random=1">
         <img src="https://picsum.photos/100?random=2">
@@ -160,7 +155,7 @@ button{
 
 <script>
 
-// Typing message
+/* Typing Message */
 const text = "Luna, you make my life brighter every day. You are my happiness, my peace, and my forever ❤️";
 let i = 0;
 function typeWriter(){
@@ -179,26 +174,25 @@ const loveFill = document.getElementById("loveFill");
 
 let loveLevel = 10;
 
-// Yes button
+/* YES Button */
 yesBtn.onclick = function(e){
+
     loveLevel += 10;
     if(loveLevel > 100) loveLevel = 100;
     loveFill.style.width = loveLevel + "%";
 
+    // Heart burst
     for(let j=0;j<6;j++){
         createHeart(e.pageX,e.pageY);
     }
 
+    // Final romantic screen
     if(loveLevel === 100){
-        document.body.innerHTML = `
-        <div class="celebration">
-            <h1>Luna said YES! ❤️</h1>
-            <h2>I Love You Forever 💕</h2>
-        </div>`;
+        showFinalScreen();
     }
 };
 
-// No button moves but never covers Yes
+/* NO button moves but never overlaps YES */
 noBtn.addEventListener("mouseover", () => {
 
     const yesRect = yesBtn.getBoundingClientRect();
@@ -220,7 +214,7 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.top = newTop + "px";
 });
 
-// Hearts
+/* Heart effect */
 function createHeart(x,y){
     const heart = document.createElement("div");
     heart.className="heart";
@@ -231,7 +225,78 @@ function createHeart(x,y){
     setTimeout(()=>heart.remove(),4000);
 }
 
-// WhatsApp share
+/* Final Romantic Screen */
+function showFinalScreen(){
+    document.body.innerHTML = `
+    <style>
+        body{
+            margin:0;
+            height:100vh;
+            background:linear-gradient(135deg,#ff758c,#ff7eb3);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            overflow:hidden;
+            font-family:'Segoe UI',sans-serif;
+            color:white;
+            text-align:center;
+        }
+        .final-box{
+            animation:fadeIn 2s ease;
+        }
+        .final-name{
+            font-size:3rem;
+            font-weight:bold;
+            background:linear-gradient(90deg,#fff,#ffe6f0,#fff);
+            background-size:200%;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            animation:shine 3s infinite;
+        }
+        .final-text{
+            font-size:1.6rem;
+            margin-top:15px;
+        }
+        @keyframes shine{
+            0%{background-position:0%;}
+            100%{background-position:200%;}
+        }
+        @keyframes fadeIn{
+            from{opacity:0;transform:scale(0.8);}
+            to{opacity:1;transform:scale(1);}
+        }
+        .final-heart{
+            position:absolute;
+            font-size:20px;
+            animation:float 6s linear infinite;
+        }
+        @keyframes float{
+            0%{transform:translateY(100vh);opacity:0;}
+            100%{transform:translateY(-10vh);opacity:1;}
+        }
+    </style>
+
+    <div class="final-box">
+        <div class="final-name">Luna ❤️</div>
+        <div class="final-text">She said YES! 💍</div>
+        <div class="final-text">I Love You Forever & Always 💕</div>
+        <div class="final-text">You are my today, tomorrow and forever.</div>
+    </div>
+    `;
+
+    // Floating hearts background
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.className="final-heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(Math.random()*20+15)+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),6000);
+    },300);
+}
+
+/* WhatsApp Share */
 function shareWhatsApp(){
     const msg = "Luna ❤️ Will you be my Valentine? " + window.location.href;
     window.open("https://wa.me/?text="+encodeURIComponent(msg));
